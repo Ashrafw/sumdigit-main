@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 
-const LivesAttempted = () => {
-  const lives = 3;
-  const [livesArray, setLivesArray] = useState<string[]>([]);
+type LiveTypes = {
+  livesArray: string[];
+  setLivesArray: React.Dispatch<React.SetStateAction<string[]>>;
+  lives: number;
+  setLives: React.Dispatch<React.SetStateAction<number>>;
+};
+const LivesAttempted = ({ livesArray, setLivesArray, lives, setLives }: LiveTypes) => {
   useEffect(() => {
     if (lives === 3) {
       setLivesArray(["true", "true", "true"]);
@@ -22,9 +26,9 @@ const LivesAttempted = () => {
         <FaHeart
           key={`key-${index}`}
           className={
-            item === "true "
-              ? "alive text-[#19C9C8] text-opacity-30 text-2xl"
-              : "dead text-[#19C9C8] text-2xl"
+            item === "true"
+              ? " text-[#19C9C8]  text-xl"
+              : " text-[#19C9C8] text-opacity-10 text-xl"
           }
         />
       ))}

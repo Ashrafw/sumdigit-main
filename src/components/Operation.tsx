@@ -1,5 +1,6 @@
 import React from "react";
 import { FaRedo } from "react-icons/fa";
+import { useStateStore } from "../zustand";
 type ObjectNum = {
   id: number;
   value: number | string;
@@ -10,26 +11,20 @@ type OperationType = {
   currentAttempt: (string | number)[];
   setCurrentAttempt: React.Dispatch<React.SetStateAction<(string | number)[]>>;
   isBackSpacePossible: boolean;
-  achievedTargetNum: boolean;
-  setLives: React.Dispatch<React.SetStateAction<number>>;
   setNumberObj: React.Dispatch<React.SetStateAction<ObjectNum[]>>;
   numbers: number[];
   setCompleteAttempt: React.Dispatch<React.SetStateAction<(string | number)[][]>>;
-  lives: number;
-  isDarkMode: boolean;
 };
 const Operation = ({
   setCurrentAttempt,
   currentAttempt,
   isBackSpacePossible,
-  achievedTargetNum,
-  setLives,
   setNumberObj,
   numbers,
   setCompleteAttempt,
-  lives,
-  isDarkMode,
 }: OperationType) => {
+  const { setLives, lives, isDarkMode, achievedTargetNum } = useStateStore();
+
   const handleClick = (value: string) => {
     if (value === "<-" && currentAttempt.length === 2) {
       setCurrentAttempt((prev) => prev.slice(0, -1));
@@ -50,7 +45,7 @@ const Operation = ({
       setCurrentAttempt((prev) => [...prev, value]);
     }
     if (value === "redo") {
-      setLives((prev) => prev - 1);
+      setLives(lives - 1);
       setCurrentAttempt([]);
       setCompleteAttempt([]);
       setNumberObj(() => {

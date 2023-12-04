@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import { useStateStore } from "../zustand";
 
 type LiveTypes = {
   livesArray: string[];
   setLivesArray: React.Dispatch<React.SetStateAction<string[]>>;
-  lives: number;
-  setLives: React.Dispatch<React.SetStateAction<number>>;
 };
-const LivesAttempted = ({ livesArray, setLivesArray, lives, setLives }: LiveTypes) => {
+const LivesAttempted = ({ livesArray, setLivesArray }: LiveTypes) => {
+  const { lives, setLives } = useStateStore();
+
   useEffect(() => {
     if (lives === 3) {
       setLivesArray(["true", "true", "true"]);

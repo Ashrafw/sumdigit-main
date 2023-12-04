@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Operation from "./Operation";
+import { useStateStore } from "../zustand";
 
 type ObjectNum = {
   id: number;
@@ -17,13 +18,7 @@ type GenNumbersType = {
   setCompleteAttempt: React.Dispatch<React.SetStateAction<(string | number)[][]>>;
   numberObj: ObjectNum[];
   setNumberObj: React.Dispatch<React.SetStateAction<ObjectNum[]>>;
-  targetNumber: number;
-  achievedTargetNum: boolean;
-  setAchievedTargetNum: React.Dispatch<React.SetStateAction<boolean>>;
-  setLives: React.Dispatch<React.SetStateAction<number>>;
-  lives: number;
   setIsLivesRemainingModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
 };
 const GenNumbers = ({
   numbers,
@@ -35,13 +30,7 @@ const GenNumbers = ({
   setCompleteAttempt,
   numberObj,
   setNumberObj,
-  targetNumber,
-  achievedTargetNum,
-  setAchievedTargetNum,
-  setLives,
-  lives,
   setIsLivesRemainingModal,
-  isDarkMode,
 }: GenNumbersType) => {
   const [isBackSpacePossible, setIsBackSpacePossible] = useState(false);
   const calculate = (num1: number, op: string, num2: number): number => {
@@ -57,6 +46,16 @@ const GenNumbers = ({
       return 0;
     }
   };
+
+  const {
+    setLives,
+    lives,
+    achievedTargetNum,
+    setAchievedTargetNum,
+    targetNumber,
+    setEndTime,
+    startTime,
+  } = useStateStore();
 
   const handleClick = (num: number | string, id: number) => {
     if (currentAttempt.length === 0) {
@@ -94,13 +93,15 @@ const GenNumbers = ({
         .some((obj) => obj.value === targetNumber)
     ) {
       setAchievedTargetNum(true);
+      setEndTime((new Date() - startTime) / 1000);
+      console.log("(new Date() - startTime) / 1000", (new Date() - startTime) / 1000);
     }
   }, [numberObj]);
   useEffect(() => {
     if (completeAttempt.length === 5 && !achievedTargetNum && lives > 1) {
       setIsLivesRemainingModal(true);
       setTimeout(() => {
-        setLives((prev) => prev - 1);
+        setLives(lives - 1);
         setCurrentAttempt([]);
         setCompleteAttempt([]);
         setNumberObj(() => {
@@ -111,15 +112,9 @@ const GenNumbers = ({
           return newObj;
         });
         setIsLivesRemainingModal(false);
-      }, 1500);
+      }, 1000);
     }
   }, [completeAttempt]);
-
-  // console.log("currentAttempt", currentAttempt);
-  // console.log("currentAttempt.length", currentAttempt.length);
-  // console.log("numberObj", numberObj);
-  // console.log("numberObj.length", numberObj.length);
-  // console.log("completeAttempt?.length === 5", completeAttempt);
 
   return (
     <div className=" text-white">
@@ -182,13 +177,9 @@ const GenNumbers = ({
           setCurrentAttempt={setCurrentAttempt}
           currentAttempt={currentAttempt}
           isBackSpacePossible={isBackSpacePossible}
-          achievedTargetNum={achievedTargetNum}
-          setLives={setLives}
           setNumberObj={setNumberObj}
           numbers={numbers}
           setCompleteAttempt={setCompleteAttempt}
-          lives={lives}
-          isDarkMode={isDarkMode}
         />
       </div>
     </div>

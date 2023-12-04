@@ -1,16 +1,12 @@
 import React from "react";
+import { useStateStore } from "../zustand";
 type DisplayOutputType = {
   currentAttempt: (string | number)[];
   completeAttempt: (string | number)[][];
-  targetNumber: number;
-  isDarkMode: boolean;
 };
-const DisplayOutput = ({
-  currentAttempt,
-  completeAttempt,
-  targetNumber,
-  isDarkMode,
-}: DisplayOutputType) => {
+const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) => {
+  const { isDarkMode, targetNumber } = useStateStore();
+
   return (
     <div
       className={`  grid grid-cols-5 gap-2 border ${

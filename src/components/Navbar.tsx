@@ -1,13 +1,11 @@
 import { FaRegChartBar, FaQuestion, FaBars, FaCog } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
-type NavbarType = {
-  setIsHowToPlayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
-  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useStateStore } from "../zustand";
 
-const Navbar = ({ setIsHowToPlayModal, isDarkMode, setIsDarkMode }: NavbarType) => {
+const Navbar = () => {
+  const { isDarkMode, setIsDarkMode, setIsHowToPlayModal, isHowToPlayModal } =
+    useStateStore();
   return (
     <nav className=" flex items-center justify-center mb-4 border-b-2">
       <div className=" max-w-[1000px] w-[100%] flex justify-between items-center py-2 px-4 ">
@@ -17,11 +15,11 @@ const Navbar = ({ setIsHowToPlayModal, isDarkMode, setIsDarkMode }: NavbarType) 
         </div>
         <div className=" flex items-center justify-end text-2xl min-w-[20%] gap-5">
           <FaQuestion
-            onClick={() => setIsHowToPlayModal((prev) => !prev)}
+            onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
             className="font-bold"
             style={{ cursor: "pointer" }}
           />
-          <button onClick={() => setIsDarkMode((prev) => !prev)}>
+          <button onClick={() => setIsDarkMode(!isDarkMode)}>
             {!isDarkMode ? (
               <FaSun
                 // onClick={() => setIsSettingModal((prev) => !prev)}

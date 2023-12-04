@@ -10,23 +10,28 @@ import DisplayOutput from "./components/DisplayOutput";
 import HowToPlayModal from "./components/HowToPlayModal";
 import LivesModal from "./components/LivesModal";
 import ConfettiExplosion from "react-confetti-explosion";
+import { useStateStore } from "./zustand";
 function App() {
-  const [count, setCount] = useState(0);
-  const [targetNumber, setTargetNumber] = useState(9);
-  const [numbers, setNumbers] = useState([4, 5, 8, 20, 4, 10]);
+  const [numbers, setNumbers] = useState([25, 50, 4, 6, 75, 2]);
   const [currentAttempt, setCurrentAttempt] = useState<(string | number)[]>([]);
   const [completeAttempt, setCompleteAttempt] = useState<(string | number)[][]>([]);
   const [resultNumbers, setResultNumbers] = useState<number[]>([]);
-  const [achievedTargetNum, setAchievedTargetNum] = useState(false);
-  const [isHowToPlayModal, setIsHowToPlayModal] = useState(false);
   const [isLivesRemainingModal, setIsLivesRemainingModal] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isStartGame, setIsStartGame] = useState(false);
+  const [endTime, setEndTime] = useState(null);
+
+  const {
+    isDarkMode,
+    setIsDarkMode,
+    isHowToPlayModal,
+    lives,
+    achievedTargetNum,
+    targetNumber,
+    setStartTime,
+  } = useStateStore();
 
   //
-  //
   const [livesArray, setLivesArray] = useState<string[]>([]);
-  const [lives, setLives] = useState<number>(3);
-  //
   const initialValue = 0;
   const [numberObj, setNumberObj] = useState(() => {
     const newObj: any[] = [];
@@ -35,18 +40,15 @@ function App() {
     });
     return newObj;
   });
-  console.log("lives", lives);
-  // const [numberObj, setNumberObj] = useState({
-  //   1: { value: 4, selected: false },
-  //   2: { value: 5, selected: false },
-  //   3: { value: 8, selected: false },
-  //   4: { value: 20, selected: false },
-  //   5: { value: 15, selected: false },
-  //   6: { value: 2, selected: false },
-  // });
-  console.log("numberObj", numberObj);
-  console.log("currentAttempt", currentAttempt);
-  console.log("completeAttempt", completeAttempt);
+
+  const handleClick = () => {
+    const time = new Date();
+    console.log("time", time);
+    console.log("typeof time", typeof time);
+    setStartTime(time);
+    setIsStartGame(true);
+  };
+
   return (
     <div
       className={`w-screen h-screen relative  ${
@@ -55,66 +57,75 @@ function App() {
           : " bg-[#dce4e6] text-gray-950"
       }`}
     >
-      <Navbar
-        setIsHowToPlayModal={setIsHowToPlayModal}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-      />
-      {isHowToPlayModal && <HowToPlayModal setIsHowToPlayModal={setIsHowToPlayModal} />}
-      <div className=" flex flex-col justify-center items-center py-2 px-4 gap-4">
-        <div className="flex flex-col items-center gap-3 mt-2 ">
-          <TargetNumber targetNumber={targetNumber} isDarkMode={isDarkMode} />
-          <LivesAttempted
-            livesArray={livesArray}
-            setLivesArray={setLivesArray}
-            lives={lives}
-            setLives={setLives}
-          />
-        </div>
+      <Navbar />
+      {isHowToPlayModal && <HowToPlayModal />}
+      {!isStartGame ? (
+        <div className=" max-w-[90%] w-600px m-auto h-[90%] rounded-lg shadow-lg text-white  bg-slate-600 bg-opacity-80 flex  justify-center items-center flex-col gap-6">
+          <h1 className=" text-3xl font-semibold ">
+            Today's Target Number is{" "}
+            <strong className=" font-extrabold shadow p-2 bg-slate-400 rounded-md">
+              {targetNumber}
+            </strong>{" "}
+          </h1>
+          <button
+            className=" px-16 py-2 bg-slate-800 rounded-lg shadow-lg font-semibold text-xl"
+            onClick={() => handleClick()}
+          >
+            Start
+          </button>
 
-        <div>
-          {achievedTargetNum && (
-            <ConfettiExplosion
-              force={0.9}
-              duration={5000}
-              particleCount={650}
-              width={1600}
-            />
-          )}
+          {/* <button className=" px-8 py-2 bg-slate-300 text-slate-700 rounded-lg shadow-lg font-semibold text-xl">
+            How to play
+          </button> */}
         </div>
-        {isLivesRemainingModal && <LivesModal lives={lives} />}
-        <div className=" relative">
-          <DisplayNone isDarkMode={isDarkMode} />
-          <div className="absolute top-0 left-0">
-            <DisplayOutput
+      ) : (
+        <div className=" flex flex-col justify-center items-center py-2 px-4 gap-4">
+          <div className="flex flex-col items-center gap-3 mt-2 ">
+            <TargetNumber />
+            <LivesAttempted livesArray={livesArray} setLivesArray={setLivesArray} />
+          </div>
+
+          <div>
+            {achievedTargetNum && (
+              <ConfettiExplosion
+                force={0.9}
+                duration={5000}
+                particleCount={650}
+                width={1600}
+              />
+            )}
+          </div>
+          {/* {isLivesRemainingModal && <LivesModal lives={lives} />} */}
+          <div className=" relative">
+            <DisplayNone />
+            <div className="absolute top-0 left-0">
+              <DisplayOutput
+                currentAttempt={currentAttempt}
+                completeAttempt={completeAttempt}
+              />
+            </div>
+          </div>
+          <div className="  ">
+            <GenNumbers
+              numbers={numbers}
               currentAttempt={currentAttempt}
+              setCurrentAttempt={setCurrentAttempt}
+              setResultNumbers={setResultNumbers}
+              resultNumbers={resultNumbers}
+              setCompleteAttempt={setCompleteAttempt}
+              numberObj={numberObj}
+              setNumberObj={setNumberObj}
+              // targetNumber={targetNumber}
               completeAttempt={completeAttempt}
-              targetNumber={targetNumber}
-              isDarkMode={isDarkMode}
+              setIsLivesRemainingModal={setIsLivesRemainingModal}
             />
           </div>
         </div>
-        <div className="  ">
-          <GenNumbers
-            numbers={numbers}
-            currentAttempt={currentAttempt}
-            setCurrentAttempt={setCurrentAttempt}
-            setResultNumbers={setResultNumbers}
-            resultNumbers={resultNumbers}
-            setCompleteAttempt={setCompleteAttempt}
-            numberObj={numberObj}
-            setNumberObj={setNumberObj}
-            targetNumber={targetNumber}
-            achievedTargetNum={achievedTargetNum}
-            setAchievedTargetNum={setAchievedTargetNum}
-            setLives={setLives}
-            completeAttempt={completeAttempt}
-            lives={lives}
-            setIsLivesRemainingModal={setIsLivesRemainingModal}
-            isDarkMode={isDarkMode}
-          />
-        </div>
-      </div>
+      )}
+      <p className=" w-full text-center mb-auto p-2 absolute bottom-0 ">
+        {" "}
+        created by @ashrafmedia
+      </p>
     </div>
   );
 }

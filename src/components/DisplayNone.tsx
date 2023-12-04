@@ -1,6 +1,9 @@
 import React from "react";
+import { useStateStore } from "../zustand";
 
-const DisplayNone = ({ isDarkMode }: { isDarkMode: boolean }) => {
+const DisplayNone = () => {
+  const { isDarkMode } = useStateStore();
+
   return (
     <div
       className={` grid grid-cols-5 gap-2 shadow-sm border ${

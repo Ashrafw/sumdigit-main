@@ -49,11 +49,12 @@ const GenNumbers = ({
     lives,
 
     targetNumber,
-    setEndTime,
-    startTime,
+
+    setIsStatsModal,
   } = useStateStore();
 
-  const { achievedTargetNum, setAchievedTargetNum } = usePersistStore();
+  const { achievedTargetNum, setAchievedTargetNum, setEndTime, startTime } =
+    usePersistStore();
 
   const {
     isIncomplete,
@@ -90,8 +91,10 @@ const GenNumbers = ({
     setMySolution,
     setLastLife,
     setIsSolved,
+    setIsConfetti,
   } = usePersistStore();
   //
+
   const handleClick = (num: number | string, id: number) => {
     setIsIncomplete(true);
 
@@ -147,6 +150,11 @@ const GenNumbers = ({
       setMySolution(completeAttempt);
       setLastLife(lives);
       setIsSolved(true);
+
+      setTimeout(() => {
+        setIsConfetti(true);
+      }, 3500);
+      setIsStatsModal(true);
       // clear temp results for incomplete play
       setIsIncomplete(false);
       setCompleteArr([]);
@@ -159,7 +167,7 @@ const GenNumbers = ({
         setLongestStreak(currentStreak + 1);
       }
       setCurrentStreak(currentStreak + 1);
-      if (fastestTime > (new Date() - startTime) / 1000) {
+      if (fastestTime === 0 || fastestTime > (new Date() - startTime) / 1000) {
         setFastestTime((new Date() - startTime) / 1000);
       }
       if (lives === 1) {

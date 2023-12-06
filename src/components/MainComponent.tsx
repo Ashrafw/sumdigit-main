@@ -37,7 +37,7 @@ const MainComponent = ({
         {achievedTargetNum && (
           <ConfettiExplosion
             force={0.9}
-            duration={5000}
+            duration={2500}
             particleCount={650}
             width={1600}
           />

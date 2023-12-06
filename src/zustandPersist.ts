@@ -43,6 +43,15 @@ interface StateStore {
 
   isStartGame: boolean;
   setIsStartGame: (isStartGame: boolean) => void;
+
+  isConfetti: boolean;
+  setIsConfetti: (isConfetti: boolean) => void;
+
+  startTime: object;
+  setStartTime: (startTime: object) => void;
+
+  endTime: number;
+  setEndTime: (targetNumber: number) => void;
 }
 
 export const usePersistStore = create<StateStore>()(
@@ -89,6 +98,16 @@ export const usePersistStore = create<StateStore>()(
       //
       isStartGame: false,
       setIsStartGame: (isStartGame: boolean) => set({ isStartGame }),
+      //
+      isConfetti: false,
+      setIsConfetti: (isConfetti: boolean) => set({ isConfetti }),
+      //
+      startTime: {},
+      setStartTime: (startTime: object) => set({ startTime }),
+      //
+      endTime: 0,
+      setEndTime: (endTime: number) => set({ endTime }),
+      //
     }),
     {
       name: "sum_digit",

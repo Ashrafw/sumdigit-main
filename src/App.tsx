@@ -20,6 +20,10 @@ const getDateFormat = () => {
   const date = new Date();
   return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 };
+const getDateFormatStart = () => {
+  const date = new Date();
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+};
 function App() {
   const {
     isDarkMode,
@@ -32,10 +36,14 @@ function App() {
     setAchievedTargetNum,
     isStartGame,
     setIsStartGame,
+    isConfetti,
+    setStartTime,
+    setIsConfetti,
+    setCurrentStreak,
   } = usePersistStore();
   const { isIncomplete, objectArr, currentArr, completeArr, setIsIncomplete } =
     usePersistIncompleteStore();
-  const { isHowToPlayModal, lives, targetNumber, setStartTime, isStatsModal } =
+  const { isHowToPlayModal, lives, targetNumber, isStatsModal, setIsStatsModal } =
     useStateStore();
   const [isLivesRemainingModal, setIsLivesRemainingModal] = useState(false);
   const [numbers, setNumbers] = useState([25, 50, 4, 6, 75, 2]);
@@ -66,11 +74,17 @@ function App() {
 
   useEffect(() => {
     if (getDateFormat() !== lastGameDate) {
-      // if (newDate !== "lastGameDate") {
+      if (!isSolved) {
+        setCurrentStreak(0);
+      }
+
       setIsSolved(false);
       setAchievedTargetNum(false);
       setIsStartGame(false);
       setIsIncomplete(false);
+      setIsConfetti(false);
+    } else if (isSolved) {
+      setIsStatsModal(true);
     }
     // setIsSolved(false);
   }, []);
@@ -104,43 +118,26 @@ function App() {
     <div
       className={`w-screen h-screen relative  ${
         isDarkMode
-          ? "bg-[#242424] text-[rgba(238, 238, 238, 0.87)]"
+          ? "bg-[#131e26] text-[rgba(238, 238, 238, 0.87)]"
           : " bg-[#dce4e6] text-gray-950"
       }`}
     >
       <Navbar />
       {isStatsModal && <StatsModal />}
       {isHowToPlayModal && <HowToPlayModal />}
-      {isSolved ? (
-        <div
-          className={` flex flex-col justify-center items-center py-2 px-4 gap-4 ${
-            isStatsModal || isHowToPlayModal ? "blur-sm" : "blur-none"
-          } ">}`}
-        >
-          <div className="flex flex-col items-center gap-3 mt-2 ">
-            <TargetNumber />
-            <LivesAttemptedComplete lastLife={lastLife} />
-          </div>
-          <div className=" relative">
-            <DisplayNone />
-            <div className="absolute top-0 left-0">
-              <DisplayOutput
-                currentAttempt={currentAttempt}
-                completeAttempt={mySolution}
-              />
-            </div>
-          </div>
-          <div className=" text-2xl font-bold my-4"> Congrats!</div>
-          {/* <div className=" "><GenNumbersComplete numberObj={numberObj} /></div> */}
-        </div>
-      ) : !isStartGame && !isIncomplete && !isSolved ? (
+
+      {!isStartGame && !isIncomplete && !isSolved ? (
         <div className=" max-w-[970px] w-[90%] m-auto h-[90%] rounded-lg shadow-lg text-white  bg-slate-600 bg-opacity-80 flex  justify-center items-center flex-col gap-6">
-          <h1 className=" text-center space-y-2 text-2xl p-2 font-semibold ">
-            Today's Target Number is{" "}
-            <span className=" font-extrabold shadow p-1 bg-slate-400 rounded-md">
-              {targetNumber}
-            </span>{" "}
-          </h1>
+          <div className=" text-center">
+            <h1 className=" text-center text-2xl  font-semibold ">
+              Today's Target Number is{" "}
+              <span className=" font-extrabold shadow p-1 bg-slate-400 rounded-md">
+                {targetNumber}
+              </span>{" "}
+            </h1>
+            <div className=" font-semibold text-lg mt-2">{getDateFormatStart()}</div>
+          </div>
+
           <button
             className=" px-16 py-2 bg-slate-800 rounded-lg shadow-lg font-semibold text-xl"
             onClick={() => handleClick()}
@@ -153,63 +150,73 @@ function App() {
           </button> */}
         </div>
       ) : (
-        <MainComponent
-          livesArray={livesArray}
-          setLivesArray={setLivesArray}
-          currentAttempt={currentAttempt}
-          completeAttempt={completeAttempt}
-          numbers={numbers}
-          setCurrentAttempt={setCurrentAttempt}
-          setCompleteAttempt={setCompleteAttempt}
-          numberObj={numberObj}
-          setNumberObj={setNumberObj}
-          setIsLivesRemainingModal={setIsLivesRemainingModal}
-        />
+        // <MainComponent
+        //   livesArray={livesArray}
+        //   setLivesArray={setLivesArray}
+        //   currentAttempt={currentAttempt}
+        //   completeAttempt={completeAttempt}
+        //   numbers={numbers}
+        //   setCurrentAttempt={setCurrentAttempt}
+        //   setCompleteAttempt={setCompleteAttempt}
+        //   numberObj={numberObj}
+        //   setNumberObj={setNumberObj}
+        //   setIsLivesRemainingModal={setIsLivesRemainingModal}
+        // />
 
-        // <div
-        //   className={` flex flex-col justify-center items-center py-2 px-4 gap-4 ${
-        //     isStatsModal || isHowToPlayModal ? "blur-sm" : "blur-none"
-        //   } ">}`}
-        // >
-        //   <div className="flex flex-col items-center gap-3 mt-2 ">
-        //     <TargetNumber />
-        //     <LivesAttempted livesArray={livesArray} setLivesArray={setLivesArray} />
-        //   </div>
-        //   {/* {!achievedTargetNum && <StatsModal />} */}
-        //   <div>
-        //     {achievedTargetNum && (
-        //       <ConfettiExplosion
-        //         force={0.9}
-        //         duration={6000}
-        //         particleCount={650}
-        //         width={1600}
-        //       />
-        //     )}
-        //   </div>
-        //   {/* {isLivesRemainingModal && <LivesModal lives={lives} />} */}
-        //   <div className=" relative">
-        //     <DisplayNone />
-        //     <div className="absolute top-0 left-0">
-        //       <DisplayOutput
-        //         currentAttempt={currentAttempt}
-        //         completeAttempt={completeAttempt}
-        //       />
-        //     </div>
-        //   </div>
-        //   <div className="  ">
-        //     <GenNumbers
-        //       numbers={numbers}
-        //       currentAttempt={currentAttempt}
-        //       setCurrentAttempt={setCurrentAttempt}
-        //       setCompleteAttempt={setCompleteAttempt}
-        //       numberObj={numberObj}
-        //       setNumberObj={setNumberObj}
-        //       // targetNumber={targetNumber}
-        //       completeAttempt={completeAttempt}
-        //       setIsLivesRemainingModal={setIsLivesRemainingModal}
-        //     />
-        //   </div>
-        // </div>
+        <div
+          className={` flex flex-col justify-center items-center py-2 px-4 gap-4 ${
+            isStatsModal || isHowToPlayModal ? "blur-sm" : "blur-none"
+          } ">}`}
+        >
+          <div className=" font-semibold text-lg mt-2">{getDateFormatStart()}</div>
+
+          <div className="flex flex-col items-center gap-3 mt-2 ">
+            <TargetNumber />
+            {isSolved ? (
+              <LivesAttemptedComplete lastLife={lastLife} />
+            ) : (
+              <LivesAttempted livesArray={livesArray} setLivesArray={setLivesArray} />
+            )}
+          </div>
+          {/* {!achievedTargetNum && <StatsModal />} */}
+          <div>
+            {achievedTargetNum && !isConfetti && (
+              <ConfettiExplosion
+                force={0.9}
+                duration={3450}
+                particleCount={550}
+                width={900}
+              />
+            )}
+          </div>
+          {/* {isLivesRemainingModal && <LivesModal lives={lives} />} */}
+          <div className=" relative">
+            <DisplayNone />
+            <div className="absolute top-0 left-0">
+              <DisplayOutput
+                currentAttempt={currentAttempt}
+                completeAttempt={isSolved ? mySolution : completeAttempt}
+              />
+            </div>
+          </div>
+          {isSolved ? (
+            <div className=" text-2xl font-bold my-4"> Congrats!</div>
+          ) : (
+            <div className="  ">
+              <GenNumbers
+                numbers={numbers}
+                currentAttempt={currentAttempt}
+                setCurrentAttempt={setCurrentAttempt}
+                setCompleteAttempt={setCompleteAttempt}
+                numberObj={numberObj}
+                setNumberObj={setNumberObj}
+                // targetNumber={targetNumber}
+                completeAttempt={completeAttempt}
+                setIsLivesRemainingModal={setIsLivesRemainingModal}
+              />
+            </div>
+          )}
+        </div>
       )}
       <p className=" w-full text-center mb-auto p-2 absolute bottom-0 ">
         {" "}

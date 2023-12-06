@@ -4,7 +4,7 @@ import { useStateStore } from "../zustand";
 import video from "../assets/howtoplay20.mp4";
 import { VscDebugBreakpointData } from "react-icons/vsc";
 import { usePersistStore } from "../zustandPersist";
-
+import { FaChevronRight } from "react-icons/fa";
 const HowToPlayModal = () => {
   const { setIsHowToPlayModal, isHowToPlayModal } = useStateStore();
   const { isDarkMode } = usePersistStore();
@@ -16,7 +16,7 @@ const HowToPlayModal = () => {
     >
       <div
         className={` min-w-[480px] max-w-[780px] shadow-xl w-[85%] ${
-          isDarkMode ? "bg-[#2c2c2c] text-slate-100" : " bg-slate-200 text-black"
+          isDarkMode ? "bg-[#13212a] text-slate-300" : " bg-slate-200 text-black"
         } z-40 p-6 rounded-lg`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -24,34 +24,40 @@ const HowToPlayModal = () => {
           <div className="modal-container flex flex-col gap-4">
             <h2 className=" text-4xl font-bold">How to play SumDigit</h2>
 
-            <div>
-              <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" pt-2 mr-2" />
-                The goal is to use the selected six numbers and the basic operations to
-                reach the target number exactly. You can use each number only once, and
-                you don't have to use all the numbers.
-              </p>
+            <div className="">
+              <div className=" mb-2 flex items-start">
+                <div className=" mr-2">•</div>
+                <p>
+                  The goal is to use the selected six numbers and the basic operations to
+                  reach the target number exactly. You can use each number only once, and
+                  you don't have to use all the numbers.
+                </p>
+              </div>
+              <div className=" mb-2 flex items-start">
+                <div className=" mr-2">•</div>
+                <p>
+                  You can use addition, subtraction, multiplication, and division.
+                  Intermediate results do not need to be whole numbers, but the final
+                  result must be the target number.A target Number and set of six numbers
+                  is released daily at midnight.
+                </p>
+              </div>
+              <div className=" mb-2 flex items-start">
+                <div className=" mr-2">•</div>
+                <p>
+                  A target Number and set of six numbers is released daily at midnight.
+                </p>
+              </div>
+              <div className=" mb-2 flex">
+                <div className=" mr-2">•</div>
+                <p>You will have three lives/attempts to reach the target number.</p>
+              </div>
               {/* 
               <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" pt-2 mr-2" />
+                <VscDebugBreakpointData className=" text-2xl pt-0 mt-0 mr-2" />
                 Using the six chosen numbers and basic operations, try to reach the target
                 number.
               </p> */}
-              <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" pt-2 mr-2" />
-                You can use addition, subtraction, multiplication, and division.
-                Intermediate results do not need to be whole numbers, but the final result
-                must be the target number.
-              </p>
-              <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" pt-2 mr-2" />A target Number and set
-                of six numbers is released daily at midnight.
-              </p>
-              <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" pt-2 mr-2" />
-                You will have three lives/attempts to reach the target number.
-              </p>
-
               {/* <div className=" flex">
                 <FaHeart />
                 <FaHeart />

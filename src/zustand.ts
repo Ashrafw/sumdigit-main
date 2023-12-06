@@ -18,12 +18,6 @@ interface StateStore {
 
   targetNumber: number;
   setTargetNumber: (targetNumber: number) => void;
-
-  startTime: object;
-  setStartTime: (startTime: object) => void;
-
-  endTime: number;
-  setEndTime: (targetNumber: number) => void;
 }
 
 export const useStateStore = create<StateStore>()((set) => ({
@@ -42,13 +36,6 @@ export const useStateStore = create<StateStore>()((set) => ({
   // achievedTargetNum: false,
   // setAchievedTargetNum: (achievedTargetNum: boolean) => set({ achievedTargetNum }),
   //
-  targetNumber: 346,
+  targetNumber: 300,
   setTargetNumber: (targetNumber: number) => set({ targetNumber }),
-  //
-  startTime: {},
-  setStartTime: (startTime: object) => set({ startTime }),
-  //
-  endTime: 0,
-  setEndTime: (endTime: number) => set({ endTime }),
-  //
 }));

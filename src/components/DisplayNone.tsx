@@ -1,8 +1,8 @@
 import React from "react";
-import { useStateStore } from "../zustand";
+import { usePersistStore } from "../zustandPersist";
 
 const DisplayNone = () => {
-  const { isDarkMode } = useStateStore();
+  const { isDarkMode, setIsDarkMode } = usePersistStore();
 
   return (
     <div

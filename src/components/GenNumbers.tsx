@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Operation from "./Operation";
 import { useStateStore } from "../zustand";
+import { usePersistIncompleteStore, usePersistStore } from "../zustandPersist";
 
 type ObjectNum = {
   id: number;
@@ -12,8 +13,6 @@ type GenNumbersType = {
   numbers: number[];
   currentAttempt: (string | number)[];
   setCurrentAttempt: React.Dispatch<React.SetStateAction<(string | number)[]>>;
-  setResultNumbers: React.Dispatch<React.SetStateAction<number[]>>;
-  resultNumbers: number[];
   completeAttempt: (string | number)[][];
   setCompleteAttempt: React.Dispatch<React.SetStateAction<(string | number)[][]>>;
   numberObj: ObjectNum[];
@@ -24,8 +23,6 @@ const GenNumbers = ({
   numbers,
   currentAttempt,
   setCurrentAttempt,
-  setResultNumbers,
-  resultNumbers,
   completeAttempt,
   setCompleteAttempt,
   numberObj,
@@ -50,14 +47,54 @@ const GenNumbers = ({
   const {
     setLives,
     lives,
-    achievedTargetNum,
-    setAchievedTargetNum,
+
     targetNumber,
     setEndTime,
     startTime,
   } = useStateStore();
 
+  const { achievedTargetNum, setAchievedTargetNum } = usePersistStore();
+
+  const {
+    isIncomplete,
+    setIsIncomplete,
+    //
+    currentArr,
+    setCurrentArr,
+    //
+    completeArr,
+    setCompleteArr,
+    //
+    objectArr,
+    setObjectArr,
+    setLivesIncomplete,
+  } = usePersistIncompleteStore();
+  //
+  const {
+    gamesPlayed,
+    setGamesPlayed,
+    currentStreak,
+    setCurrentStreak,
+    longestStreak,
+    setLongestStreak,
+    fastestTime,
+    setFastestTime,
+    solvedFirst,
+    setSolvedFirst,
+    solvedSecond,
+    setSolvedSecond,
+    solvedThird,
+    setSolvedThird,
+    lastGameDate,
+    setLastGameDate,
+    setMySolution,
+    setLastLife,
+    setIsSolved,
+  } = usePersistStore();
+  //
   const handleClick = (num: number | string, id: number) => {
+    setIsIncomplete(true);
+
     if (currentAttempt.length === 0) {
       setNumberObj(
         numberObj.map((item) => (item.id === id ? { ...item, selected: true } : item))
@@ -67,9 +104,11 @@ const GenNumbers = ({
       setNumberObj(
         numberObj.map((item) => (item.id === id ? { ...item, selected: true } : item))
       );
+
       setCurrentAttempt((prev) => [...prev, num, "=", calculate(prev[0], prev[1], num)]);
     }
   };
+  // calculations
   useEffect(() => {
     if (currentAttempt.length === 5 && typeof currentAttempt[4] === "number") {
       // setResultNumbers((prev) => [...prev, currentAttempt[4]]);
@@ -77,6 +116,11 @@ const GenNumbers = ({
         ...prev,
         { id: prev.length + 1, value: currentAttempt[4], selected: false, result: true },
       ]);
+      const date = new Date();
+      console.log("date", date);
+      const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+      setLastGameDate(newDate);
+
       setCompleteAttempt((prev) => [...prev, currentAttempt]);
       setCurrentAttempt([]);
     }
@@ -86,6 +130,8 @@ const GenNumbers = ({
       setIsBackSpacePossible(false);
     }
   }, [currentAttempt]);
+
+  // check if the target number is achieved
   useEffect(() => {
     if (
       numberObj
@@ -94,9 +140,38 @@ const GenNumbers = ({
     ) {
       setAchievedTargetNum(true);
       setEndTime((new Date() - startTime) / 1000);
-      console.log("(new Date() - startTime) / 1000", (new Date() - startTime) / 1000);
+      setGamesPlayed(gamesPlayed + 1);
+      // const date = new Date();
+      // const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+      // setLastGameDate(newDate);
+      setMySolution(completeAttempt);
+      setLastLife(lives);
+      setIsSolved(true);
+      // clear temp results for incomplete play
+      setIsIncomplete(false);
+      setCompleteArr([]);
+      setCurrentArr([]);
+      setObjectArr([]);
+      //
+
+      if (longestStreak < currentStreak + 1) {
+        currentStreak;
+        setLongestStreak(currentStreak + 1);
+      }
+      setCurrentStreak(currentStreak + 1);
+      if (fastestTime > (new Date() - startTime) / 1000) {
+        setFastestTime((new Date() - startTime) / 1000);
+      }
+      if (lives === 1) {
+        setSolvedFirst(solvedFirst + 1);
+      } else if (lives === 2) {
+        setSolvedSecond(solvedSecond + 1);
+      } else if (lives === 3) {
+        setSolvedThird(solvedThird + 1);
+      }
     }
   }, [numberObj]);
+  // reset when exhausted 5 operations
   useEffect(() => {
     if (completeAttempt.length === 5 && !achievedTargetNum && lives > 1) {
       setIsLivesRemainingModal(true);
@@ -116,6 +191,22 @@ const GenNumbers = ({
     }
   }, [completeAttempt]);
 
+  useEffect(() => {
+    setCompleteArr(completeAttempt);
+  }, [completeAttempt]);
+  //
+  useEffect(() => {
+    setCurrentArr(currentAttempt);
+  }, [currentAttempt]);
+  //
+  useEffect(() => {
+    setObjectArr(numberObj);
+  }, [numberObj]);
+  //
+  useEffect(() => {
+    setLivesIncomplete(lives);
+  }, [lives]);
+
   return (
     <div className=" text-white">
       <div className=" flex gap-2  min-h-[60px] min-w-[200px] justify-center mb-4">
@@ -123,6 +214,7 @@ const GenNumbers = ({
           <>
             {item.result && (
               <button
+                key={`btn-new-${i}`}
                 disabled={completeAttempt.length === 5}
                 onClick={() =>
                   !item.selected && !achievedTargetNum
@@ -145,7 +237,7 @@ const GenNumbers = ({
             <>
               {!num.result && (
                 <button
-                  // key={i}
+                  key={`btn-act-${i}`}
                   // onClick={() => handleClick(num.value, num.id)}
                   onClick={() =>
                     !num.selected && !achievedTargetNum

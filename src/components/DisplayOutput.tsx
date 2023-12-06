@@ -1,11 +1,13 @@
 import React from "react";
 import { useStateStore } from "../zustand";
+import { usePersistStore } from "../zustandPersist";
 type DisplayOutputType = {
   currentAttempt: (string | number)[];
   completeAttempt: (string | number)[][];
 };
 const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) => {
-  const { isDarkMode, targetNumber } = useStateStore();
+  const { targetNumber } = useStateStore();
+  const { isDarkMode } = usePersistStore();
 
   return (
     <div
@@ -14,10 +16,11 @@ const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) =
       } border-opacity-0 rounded-md p-2 `}
     >
       {completeAttempt.length > 0 &&
-        completeAttempt.map((row) => (
+        completeAttempt.map((row, j) => (
           <>
             {row.map((comValue, i) => (
               <div
+                key={`complete-${i}-${j}`}
                 className={` w-[70px] h-[35px] border shadow-md ${
                   isDarkMode ? "border-white  " : "border-black "
                 }  border-opacity-10 ${
@@ -38,6 +41,7 @@ const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) =
       {currentAttempt.length > 0 &&
         currentAttempt.map((item, index) => (
           <div
+            key={`current-${index}`}
             className={` w-[70px] h-[35px] border shadow-md  ${
               isDarkMode ? "border-white " : "border-black  bg-[#19C9C8]"
             }   ${

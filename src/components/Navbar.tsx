@@ -2,12 +2,19 @@ import { FaRegChartBar, FaQuestion, FaBars, FaCog } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
 import { useStateStore } from "../zustand";
+import { usePersistStore } from "../zustandPersist";
 
 const Navbar = () => {
-  const { isDarkMode, setIsDarkMode, setIsHowToPlayModal, isHowToPlayModal } =
+  const { setIsHowToPlayModal, isHowToPlayModal, setIsStatsModal, isStatsModal } =
     useStateStore();
+  const { isDarkMode, setIsDarkMode } = usePersistStore();
+
   return (
-    <nav className=" flex items-center justify-center mb-4 border-b-2">
+    <nav
+      className={` flex items-center justify-center mb-4 border-b-2 ${
+        isDarkMode ? "border-[#f1f1f1]" : "border-[#61616118]"
+      }`}
+    >
       <div className=" max-w-[1000px] w-[100%] flex justify-between items-center py-2 px-4 ">
         {/* <div className="nav-left min-w-[20%] text-2xl "><FaBars /></div> */}
         <div className=" px-4 py-1  text-3xl r font-display bg-slate-950 rounded-md bg-opacity-80 text-white">
@@ -35,6 +42,7 @@ const Navbar = () => {
 
           <FaRegChartBar
             // onClick={() => setIsStatsModal((prev) => !prev)}
+            onClick={() => setIsStatsModal(!isStatsModal)}
             style={{ cursor: "pointer" }}
           />
         </div>

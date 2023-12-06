@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useStateStore } from "../zustand";
+import { usePersistIncompleteStore } from "../zustandPersist";
 
 type LiveTypes = {
   livesArray: string[];
@@ -8,6 +9,13 @@ type LiveTypes = {
 };
 const LivesAttempted = ({ livesArray, setLivesArray }: LiveTypes) => {
   const { lives, setLives } = useStateStore();
+  const { livesIncomplete, isIncomplete } = usePersistIncompleteStore();
+
+  useEffect(() => {
+    if (isIncomplete) {
+      setLives(livesIncomplete);
+    }
+  }, []);
 
   useEffect(() => {
     if (lives === 3) {
@@ -25,7 +33,7 @@ const LivesAttempted = ({ livesArray, setLivesArray }: LiveTypes) => {
       {" "}
       {livesArray.map((item, index) => (
         <FaHeart
-          key={`key-${index}`}
+          key={`key-heart-${index}`}
           className={
             item === "true"
               ? " text-[#19C9C8]  text-xl"

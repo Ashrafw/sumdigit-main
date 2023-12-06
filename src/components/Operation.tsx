@@ -1,6 +1,7 @@
 import React from "react";
 import { FaRedo } from "react-icons/fa";
 import { useStateStore } from "../zustand";
+import { usePersistStore } from "../zustandPersist";
 type ObjectNum = {
   id: number;
   value: number | string;
@@ -23,7 +24,8 @@ const Operation = ({
   numbers,
   setCompleteAttempt,
 }: OperationType) => {
-  const { setLives, lives, isDarkMode, achievedTargetNum } = useStateStore();
+  const { setLives, lives } = useStateStore();
+  const { isDarkMode, achievedTargetNum } = usePersistStore();
 
   const handleClick = (value: string) => {
     if (value === "<-" && currentAttempt.length === 2) {

@@ -3,17 +3,20 @@ import { FaTimes, FaHeart } from "react-icons/fa";
 import { useStateStore } from "../zustand";
 import video from "../assets/howtoplay20.mp4";
 import { VscDebugBreakpointData } from "react-icons/vsc";
+import { usePersistStore } from "../zustandPersist";
 
 const HowToPlayModal = () => {
-  const { setIsHowToPlayModal, isHowToPlayModal, isDarkMode } = useStateStore();
+  const { setIsHowToPlayModal, isHowToPlayModal } = useStateStore();
+  const { isDarkMode } = usePersistStore();
+
   return (
     <div
-      className={`absolute bg-black   bg-opacity-70 w-screen h-screen z-40 top-0 left-0 flex justify-center items-center`}
+      className={`absolute bg-black   bg-opacity-5 w-screen h-screen z-40 top-0 left-0 flex justify-center items-center`}
       onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
     >
       <div
-        className={` min-w-[480px] max-w-[780px] w-[85%] ${
-          isDarkMode ? "bg-slate-900 text-white" : " bg-slate-200 text-black"
+        className={` min-w-[480px] max-w-[780px] shadow-xl w-[85%] ${
+          isDarkMode ? "bg-[#2c2c2c] text-slate-100" : " bg-slate-200 text-black"
         } z-40 p-6 rounded-lg`}
         onClick={(e) => e.stopPropagation()}
       >

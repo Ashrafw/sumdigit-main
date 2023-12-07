@@ -13,11 +13,11 @@ interface StateStore {
   lives: number;
   setLives: (lives: number) => void;
 
-  // achievedTargetNum: boolean;
-  // setAchievedTargetNum: (achievedTargetNum: boolean) => void;
-
   targetNumber: number;
   setTargetNumber: (targetNumber: number) => void;
+
+  answer: (string | number)[][];
+  setAnswer: (answer: (string | number)[][]) => void;
 }
 
 export const useStateStore = create<StateStore>()((set) => ({
@@ -33,9 +33,10 @@ export const useStateStore = create<StateStore>()((set) => ({
   lives: 3,
   setLives: (lives: number) => set({ lives }),
   //
-  // achievedTargetNum: false,
-  // setAchievedTargetNum: (achievedTargetNum: boolean) => set({ achievedTargetNum }),
-  //
-  targetNumber: 300,
+
+  targetNumber: 0,
   setTargetNumber: (targetNumber: number) => set({ targetNumber }),
+  //
+  answer: [],
+  setAnswer: (answer: (string | number)[][]) => set({ answer }),
 }));

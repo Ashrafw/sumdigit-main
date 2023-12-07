@@ -16,6 +16,7 @@ import { usePersistIncompleteStore, usePersistStore } from "./zustandPersist";
 import GenNumbersComplete from "./components/GenNumbersComplete";
 import LivesAttemptedComplete from "./components/LivesAttemptedComplete";
 import MainComponent from "./components/MainComponent";
+import db from "./data/db.json";
 const getDateFormat = () => {
   const date = new Date();
   return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -23,6 +24,12 @@ const getDateFormat = () => {
 const getDateFormatStart = () => {
   const date = new Date();
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+};
+type ObjectNum = {
+  id: number;
+  value: number | string;
+  selected: boolean;
+  result: boolean;
 };
 function App() {
   const {
@@ -43,10 +50,19 @@ function App() {
   } = usePersistStore();
   const { isIncomplete, objectArr, currentArr, completeArr, setIsIncomplete } =
     usePersistIncompleteStore();
-  const { isHowToPlayModal, lives, targetNumber, isStatsModal, setIsStatsModal } =
-    useStateStore();
+  const {
+    isHowToPlayModal,
+    lives,
+    targetNumber,
+    isStatsModal,
+    setIsStatsModal,
+    setTargetNumber,
+    answer,
+    setAnswer,
+  } = useStateStore();
   const [isLivesRemainingModal, setIsLivesRemainingModal] = useState(false);
-  const [numbers, setNumbers] = useState([25, 50, 4, 6, 75, 2]);
+  const [numbers, setNumbers] = useState([]);
+  const [data, setData] = useState(db[0]);
   const [currentAttempt, setCurrentAttempt] = useState<(string | number)[]>(() => {
     if (isIncomplete && getDateFormat() === lastGameDate) {
       return currentArr;
@@ -61,23 +77,18 @@ function App() {
       return [];
     }
   });
-
-  // const [checkIfSolved, setCheckIfSolved] = useState(() => {
-  //   const date = new Date();
-  //   const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  //   if (newDate !== lastGameDate) {
-  //     return false;
-  //   } else {
-  //     return false;
-  //   }
-  // });
+  console.log("getDateFormat()", getDateFormat());
+  console.log("data", data);
+  console.log("data[getDateFormat()]", data[getDateFormat()]);
 
   useEffect(() => {
     if (getDateFormat() !== lastGameDate) {
       if (!isSolved) {
         setCurrentStreak(0);
       }
-
+      setTargetNumber(data[getDateFormat()].targetNumber);
+      setAnswer(data[getDateFormat()].answer);
+      setNumbers(data[getDateFormat()].number);
       setIsSolved(false);
       setAchievedTargetNum(false);
       setIsStartGame(false);
@@ -89,19 +100,24 @@ function App() {
     // setIsSolved(false);
   }, []);
   console.log("lastGameDate", lastGameDate);
+
+  console.log("answer", answer);
   //
   const [livesArray, setLivesArray] = useState<string[]>([]);
-  const [numberObj, setNumberObj] = useState(() => {
-    if (isIncomplete && getDateFormat() === lastGameDate) {
-      return objectArr;
-    } else {
-      const newObj: any[] = [];
-      numbers.forEach((value, index) => {
-        newObj[index] = { id: index + 1, value, selected: false, result: false };
-      });
-      return newObj;
-    }
-  });
+  const [numberObj, setNumberObj] = useState<ObjectNum[]>([]);
+  useEffect(() => {
+    setNumberObj((): any | ObjectNum => {
+      if (isIncomplete && getDateFormat() === lastGameDate) {
+        return objectArr;
+      } else {
+        const newObj: any[] = [];
+        numbers.forEach((value, index) => {
+          newObj[index] = { id: index + 1, value, selected: false, result: false };
+        });
+        return newObj;
+      }
+    });
+  }, [numbers]);
   //
   const handleClick = () => {
     const time = new Date();
@@ -109,11 +125,11 @@ function App() {
     setIsStartGame(true);
     setAchievedTargetNum(false);
   };
-  console.log("getDateFormat()", getDateFormat());
-  console.log("achievedTargetNum", achievedTargetNum);
-  console.log("isStartGame", isStartGame);
-  console.log("isIncomplete", isIncomplete);
-  console.log("isSolved", isSolved);
+  // console.log("getDateFormat()", getDateFormat());
+  // console.log("achievedTargetNum", achievedTargetNum);
+  // console.log("isStartGame", isStartGame);
+  // console.log("isIncomplete", isIncomplete);
+  // console.log("isSolved", isSolved);
   return (
     <div
       className={`w-screen h-screen relative  ${

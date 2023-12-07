@@ -215,6 +215,9 @@ const GenNumbers = ({
     setLivesIncomplete(lives);
   }, [lives]);
 
+  console.log("completeAttempt", completeAttempt);
+  console.log("numberObj", numberObj);
+
   return (
     <div className=" text-white">
       <div className=" flex gap-2  min-h-[60px] min-w-[200px] justify-center mb-4">

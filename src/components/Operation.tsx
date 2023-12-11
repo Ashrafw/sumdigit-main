@@ -70,35 +70,35 @@ const Operation = ({
       <button
         disabled={achievedTargetNum}
         onClick={() => handleClick("+")}
-        className=" w-[55px] h-[45px]  shadow-md font-bold flex justify-center items-center text-xl rounded-tl-xl bg-[#3a8f99] bg-opacity-70"
+        className=" w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md font-bold flex justify-center items-center text-xl rounded-tl-xl bg-[#3a8f99] bg-opacity-70"
       >
         +
       </button>
       <button
         disabled={achievedTargetNum}
         onClick={() => handleClick("-")}
-        className=" w-[55px] h-[45px]  shadow-md font-bold  flex justify-center items-center text-xl rounded-tr-xl bg-[#3a8f99] bg-opacity-70 "
+        className=" w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md font-bold  flex justify-center items-center text-xl rounded-tr-xl bg-[#3a8f99] bg-opacity-70 "
       >
         -
       </button>
       <button
         disabled={achievedTargetNum}
         onClick={() => handleClick("x")}
-        className=" w-[55px] h-[45px]  shadow-md font-bold  flex justify-center items-center text-xl  bg-[#3a8f99] bg-opacity-70 "
+        className=" w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md font-bold  flex justify-center items-center text-xl  bg-[#3a8f99] bg-opacity-70 "
       >
         x
       </button>
       <button
         disabled={achievedTargetNum}
         onClick={() => handleClick("÷")}
-        className=" w-[55px] h-[45px]  shadow-md font-bold  flex justify-center items-center text-xl  bg-[#3a8f99] bg-opacity-70 "
+        className=" w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md font-bold  flex justify-center items-center text-xl  bg-[#3a8f99] bg-opacity-70 "
       >
         ÷
       </button>
       <button
         disabled={achievedTargetNum}
         onClick={() => handleClick("<-")}
-        className={` w-[55px] h-[45px]  shadow-md font-bold  flex justify-center items-center text-xl rounded-bl-xl bg-[#3a8f99] ${
+        className={` w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md font-bold  flex justify-center items-center text-xl rounded-bl-xl bg-[#3a8f99] ${
           isBackSpacePossible ? "bg-opacity-70" : "bg-opacity-30"
         }  `}
       >
@@ -107,7 +107,7 @@ const Operation = ({
       <button
         disabled={achievedTargetNum || lives === 1}
         onClick={() => handleClick("redo")}
-        className={`  w-[55px] h-[45px]  shadow-md  font-bold  flex justify-center items-center  rounded-br-xl bg-[#3a8f99] bg-opacity-70 ${
+        className={`  w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md  font-bold  flex justify-center items-center  rounded-br-xl bg-[#3a8f99] bg-opacity-70 ${
           lives === 0 ? "bg-opacity-5" : "bg-opacity-20"
         }  `}
       >

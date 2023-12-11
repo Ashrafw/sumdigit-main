@@ -12,131 +12,131 @@ const DisplayNone = () => {
     >
       {/* row */}
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      {/* row */}
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       {/* row */}
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      {/* row */}
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
-          isDarkMode ? "border-white " : "border-black "
-        } border-opacity-20 rounded-md`}
-      ></div>
-      <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       {/* row */}
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>
       <div
-        className={` w-[70px] h-[35px] border ${
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      {/* row */}
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      {/* row */}
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
+          isDarkMode ? "border-white " : "border-black "
+        } border-opacity-20 rounded-md`}
+      ></div>
+      <div
+        className={` w-[70px] h-[35px] max-sm:w-[50px]  max-sm:h-[28px] border ${
           isDarkMode ? "border-white " : "border-black "
         } border-opacity-20 rounded-md`}
       ></div>

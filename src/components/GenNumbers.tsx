@@ -43,7 +43,7 @@ const GenNumbers = ({
       return 0;
     }
   };
-
+  console.log("numberObj", numberObj);
   const {
     setLives,
     lives,
@@ -92,9 +92,12 @@ const GenNumbers = ({
     setLastLife,
     setIsSolved,
     setIsConfetti,
+    setHasFailedShowSolution,
+    isDarkMode,
+    setNumberObjPersist,
   } = usePersistStore();
   //
-
+  const [showSolutionBtn, setShowSolutionBtn] = useState(false);
   const handleClick = (num: number | string, id: number) => {
     setIsIncomplete(true);
 
@@ -111,13 +114,26 @@ const GenNumbers = ({
       setCurrentAttempt((prev) => [...prev, num, "=", calculate(prev[0], prev[1], num)]);
     }
   };
+
+  useEffect(() => {
+    if (lives === 1) {
+      // /      setHasFailedShowSolution(false)
+      setShowSolutionBtn(true);
+    }
+  }, [lives]);
+
   // calculations
   useEffect(() => {
     if (currentAttempt.length === 5 && typeof currentAttempt[4] === "number") {
       // setResultNumbers((prev) => [...prev, currentAttempt[4]]);
-      setNumberObj((prev) => [
-        ...prev,
-        { id: prev.length + 1, value: currentAttempt[4], selected: false, result: true },
+      setNumberObj([
+        ...numberObj,
+        {
+          id: numberObj.length + 1,
+          value: currentAttempt[4],
+          selected: false,
+          result: true,
+        },
       ]);
       const date = new Date();
       console.log("date", date);
@@ -160,6 +176,7 @@ const GenNumbers = ({
       setCompleteArr([]);
       setCurrentArr([]);
       setObjectArr([]);
+      setNumberObjPersist([]);
       //
 
       if (longestStreak < currentStreak + 1) {
@@ -187,13 +204,14 @@ const GenNumbers = ({
         setLives(lives - 1);
         setCurrentAttempt([]);
         setCompleteAttempt([]);
-        setNumberObj(() => {
+        const handleChange = () => {
           let newObj: any[] = [];
           numbers.forEach((value, index) => {
             newObj[index] = { id: index + 1, value, selected: false, result: false };
           });
           return newObj;
-        });
+        };
+        setNumberObj(handleChange());
         setIsLivesRemainingModal(false);
       }, 1000);
     }
@@ -215,12 +233,29 @@ const GenNumbers = ({
     setLivesIncomplete(lives);
   }, [lives]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSolutionBtn(true);
+    }, 40000);
+  }, [lives]);
+
   console.log("completeAttempt", completeAttempt);
   console.log("numberObj", numberObj);
 
+  const handleGameOver = () => {
+    setHasFailedShowSolution(true);
+    setGamesPlayed(gamesPlayed + 1);
+    setCurrentStreak(0);
+    setIsSolved(false);
+    const date = new Date();
+    console.log("date", date);
+    const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    setLastGameDate(newDate);
+  };
+
   return (
     <div className=" text-white">
-      <div className=" flex gap-2  min-h-[60px] min-w-[200px] justify-center mb-4">
+      <div className=" flex gap-2 pt-1 pb-4 min-w-[200px] justify-center">
         {numberObj.map((item, i) => (
           <>
             {item.result && (
@@ -232,7 +267,7 @@ const GenNumbers = ({
                     ? handleClick(item.value, item.id)
                     : null
                 }
-                className={` w-[55px] h-[45px] shadow-md flex justify-center items-center text-lg font-bold rounded-md bg-black bg-opacity-50  ${
+                className={` text-lg  w-[55px] h-[45px]  max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[16px] shadow-md flex justify-center items-center font-bold rounded-md bg-black bg-opacity-50  ${
                   item.selected ? " cursor-not-allowed opacity-10 " : "bg-opacity-80"
                 } ${item.value === targetNumber ? " bg-emerald-500" : "bg-black"} `}
               >
@@ -256,7 +291,8 @@ const GenNumbers = ({
                       : null
                   }
                   disabled={num.selected}
-                  className={` w-[55px] h-[45px] shadow-md flex justify-center items-center text-lg font-bold ${
+                  className={` 
+                  text-lg  w-[55px] h-[45px] shadow-md  max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[16px] flex justify-center items-center font-bold ${
                     num.selected ? " cursor-not-allowed opacity-10 " : "bg-opacity-80"
                   } bg-black  ${
                     i === 0
@@ -285,6 +321,21 @@ const GenNumbers = ({
           setCompleteAttempt={setCompleteAttempt}
         />
       </div>
+      {showSolutionBtn && (
+        <div className=" flex justify-center">
+          <button
+            className={` mt-6 ${
+              isDarkMode
+                ? "bg-black bg-opacity-30 text-slate-200"
+                : " bg-slate-400 bg-opacity-100 text-neutral-100"
+            } p-[6px] px-4 rounded-md max- text-md font-bold hover:bg-slate-600 hover:text-white max-sm:text-sm max-sm:py-1`}
+            onClick={() => handleGameOver()}
+          >
+            Show solution
+          </button>
+          {/* const [showSolutionBtn, setShowSolutionBtn] = useState(false); */}
+        </div>
+      )}
     </div>
   );
 };

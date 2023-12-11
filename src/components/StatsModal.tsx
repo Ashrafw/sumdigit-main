@@ -2,7 +2,9 @@ import React from "react";
 import { useStateStore } from "../zustand";
 import { FaTimes, FaHeart } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
-import { usePersistStore } from "../zustandPersist";
+import { usePersistIncompleteStore, usePersistStore } from "../zustandPersist";
+import { EmailShareButton, TwitterShareButton } from "react-share";
+
 const StatsModal = () => {
   const { setIsStatsModal, isStatsModal } = useStateStore();
   const { isDarkMode } = usePersistStore();
@@ -16,8 +18,12 @@ const StatsModal = () => {
     solvedThird,
     lastGameDate,
     endTime,
+    lastLife,
+    id,
+    isSolved,
   } = usePersistStore();
 
+  const { isIncomplete } = usePersistIncompleteStore();
   const changeTimeFormat = (totalSeconds: number) => {
     // const milliseconds = 20000;
     // const totalSeconds = Math.floor(milliseconds / 1000);
@@ -26,64 +32,81 @@ const StatsModal = () => {
     const seconds = Math.floor(totalSeconds % 60);
     const aaa = Math.floor(totalSeconds % 3600);
     // const seconds = totalSeconds % 60;
-    return `${hours > 0 ? ` ${hours + " hours"},` : ""}    ${
-      minutes > 0 ? ` ${minutes + " minutes"}` : ""
-    }    ${seconds > 0 ? ` ${seconds + " seconds"}` : ""}      
+    return `${hours > 0 ? `${hours + " hours"}, ` : ""}${
+      minutes > 0 ? `${minutes + " minutes"}` : ""
+    }${seconds > 0 ? ` ${seconds + " seconds"}` : ""}      
     `;
   };
-
+  const timeCur = changeTimeFormat(endTime);
+  console.log("lastLife", lastLife);
+  const text = `SumDigit  #${id} \n\n${
+    lastLife === 3
+      ? "Solved: 1st attempt 🟩 🟩 🟩"
+      : lastLife === 2
+      ? "Solved: 2nd attempt ⬜️ 🟩 🟩"
+      : "Solved: 3rd attempt ⬜️ ⬜️ 🟩"
+  }   \nTime: ${timeCur} \n`;
+  console.log("isSolved", isSolved);
   return (
     <div
       className={`absolute bg-black bg-opacity-5 w-screen h-screen z-40  top-0 left-0 flex justify-center items-center`}
       onClick={() => setIsStatsModal(!isStatsModal)}
     >
       <div
-        className={` relative min-w-[480px] max-w-[560px] blur-none shadow-xl w-[85%] ${
+        className={` relative max-w-[560px] blur-none shadow-xl w-[90%] ${
           isDarkMode ? "bg-[#13212a] text-slate-100" : " bg-slate-200 text-black"
         } z-40 p-6 rounded-lg`}
         onClick={(e) => e.stopPropagation()}
       >
-        <h1 className=" text-xl font-bold mb-4">Statistic</h1>
-        <div className=" grid grid-cols-3 gap-2 justify-between">
+        <h1 className=" text-xl font-bold mb-4 max-sm:text-md">Statistic</h1>
+        <div className=" grid grid-cols-3 gap-2 max-sm:gap-1">
           <div
-            className={`flex items-center  justify-center gap-2 border-2 p-2 rounded-md ${
+            className={`flex items-center  justify-center gap-2 border-2 p-2 rounded-md max-sm:border ${
               isDarkMode ? "border-white" : " border-black"
             }`}
           >
-            <div className=" flex flex-col items-end justify-center">
-              <p className=" text-sm font-semibold m-0 p-0">Games </p>
-              <p className=" text-sm font-semibold m-0 p-0">played </p>
+            <div className=" flex flex-col items-end justify-center text-sm max-sm:text-xs">
+              <p className=" font-semibold m-0 p-0">Games </p>
+              <p className=" font-semibold m-0 p-0">played </p>
             </div>
-            <strong className=" font-light text-4xl">{gamesPlayed}</strong>
+            <strong className=" font-light text-4xl max-sm:text-2xl">
+              {gamesPlayed}
+            </strong>
           </div>
 
           <div
-            className={`flex items-center justify-center gap-2 border-2 p-2 rounded-md ${
+            className={`flex items-center justify-center gap-2 border-2 p-2 rounded-md max-sm:border ${
               isDarkMode ? "border-white" : " border-black"
             }`}
           >
-            <div className=" flex flex-col items-end justify-center">
-              <p className=" text-sm font-semibold m-0 p-0">Current </p>
-              <p className=" text-sm font-semibold m-0 p-0">streak </p>
+            <div className=" flex flex-col items-end justify-center text-sm max-sm:text-xs">
+              <p className=" font-semibold m-0 p-0">Current </p>
+              <p className=" font-semibold m-0 p-0">streak </p>
             </div>
-            <strong className=" font-light text-4xl">{currentStreak}</strong>
+            <strong className=" font-light text-4xl max-sm:text-2xl">
+              {currentStreak}
+            </strong>
           </div>
 
           <div
-            className={`flex items-center justify-center gap-2 border-2 p-2 rounded-md ${
+            className={`flex items-center justify-center gap-2 border-2 p-2 rounded-md max-sm:border ${
               isDarkMode ? "border-white" : " border-black"
             }`}
           >
-            <div className=" flex flex-col items-end">
-              <p className=" text-sm font-semibold m-0 p-0">Longest </p>
-              <p className=" text-sm font-semibold m-0 p-0">streak </p>
+            <div className=" flex flex-col items-end justify-center text-sm max-sm:text-xs">
+              <p className=" font-semibold m-0 p-0">Longest </p>
+              <p className=" font-semibold m-0 p-0">streak </p>
             </div>
-            <strong className=" font-light text-4xl">{longestStreak}</strong>
+            <strong className=" font-light text-4xl max-sm:text-2xl">
+              {longestStreak}
+            </strong>
           </div>
         </div>
 
         <div className=" my-8">
-          <h1 className=" font-semibold my-2 mt-4">Guess distribution: (attempts)</h1>
+          <h1 className=" font-semibold my-2 mt-4  max-sm:text-md">
+            Guess distribution: (attempts)
+          </h1>
           <div className=" flex  items-center gap-3 mb-1">
             <div className=" relative w-[30px]">
               <FaHeart
@@ -156,7 +179,7 @@ const StatsModal = () => {
           </div>
         </div>
         <div
-          className={` items-end justify-center gap-2 border-2 p-2 rounded-md  mb-2 shadow-md ${
+          className={` items-end justify-center gap-2 border-2 p-2 rounded-md  mb-2 shadow-md  max-sm:border ${
             isDarkMode ? "border-white" : " border-black"
           }`}
         >
@@ -165,7 +188,9 @@ const StatsModal = () => {
               isDarkMode ? " bg-[rgba(255,255,255,0.03)] " : " "
             }`}
           >
-            <p className=" text-md  font-semibold m-0 p-0">Current solve time:</p>
+            <p className=" text-md font-semibold m-0 p-0  max-sm:text-sm">
+              Current solve time:
+            </p>
             <strong className=" font-normal text-lg">{changeTimeFormat(endTime)}</strong>
           </div>
           <div
@@ -173,23 +198,30 @@ const StatsModal = () => {
               isDarkMode ? " bg-[rgba(255,255,255,0.03)] " : " "
             }`}
           >
-            <p className=" text-md font-semibold m-0 p-0">Fastest solve time:</p>
+            <p className=" text-md font-semibold m-0 p-0  max-sm:text-sm">
+              Fastest solve time:
+            </p>
             <strong className=" font-normal text-lg">
               {changeTimeFormat(fastestTime)}
             </strong>
           </div>
         </div>
-        <div className=" my-2 mt-8 flex justify-center">
-          <button
-            className={` flex items-center justify-center gap-2 text-white  px-16 py-2 ${
-              isDarkMode ? "bg-slate-500 text-slate-900" : "bg-slate-800"
-            }  rounded-lg shadow-lg font-semibold text-xl 
-               `}
-            // onClick={() => handleClick()}
-          >
-            Share <CiShare2 />
-          </button>
-        </div>
+        {isSolved && (
+          <div className=" my-2 mt-8 flex justify-center">
+            <TwitterShareButton title={text} url="sumdigit.com" hashtags={[`sumdigit`]}>
+              <button
+                className={` flex items-center justify-center gap-2 text-white  px-16 py-2 ${
+                  isDarkMode ? "bg-slate-500 text-slate-900" : "bg-slate-800"
+                }  rounded-lg shadow-lg font-semibold text-xl max-sm:text-md
+                           `}
+                // onClick={() => handleClick()}
+              >
+                Share <CiShare2 />
+              </button>
+            </TwitterShareButton>
+          </div>
+        )}
+
         <button
           className={`absolute top-0 right-0 m-2 ${
             isDarkMode
@@ -204,5 +236,10 @@ const StatsModal = () => {
     </div>
   );
 };
+// Wordle 905 3/6
+
+// ⬜⬜⬜⬜🟩
+// 🟨🟩🟩⬜⬜
+// 🟩🟩🟩🟩🟩
 
 export default StatsModal;

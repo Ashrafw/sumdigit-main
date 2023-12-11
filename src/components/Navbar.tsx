@@ -17,10 +17,10 @@ const Navbar = () => {
     >
       <div className=" max-w-[1000px] w-[100%] flex justify-between items-center py-2 px-4 ">
         {/* <div className="nav-left min-w-[20%] text-2xl "><FaBars /></div> */}
-        <div className=" px-4 py-1  text-3xl r font-display bg-slate-950 rounded-md bg-opacity-80 text-white">
+        <div className=" px-4 py-1  text-3xl max-sm:text-xl font-display bg-slate-950 rounded-md bg-opacity-80 text-white">
           Sum<span className=" text-[#19C9C8]">Digit</span>.com
         </div>
-        <div className=" flex items-center justify-end text-2xl min-w-[20%] gap-5">
+        <div className=" flex items-center justify-end text-2xl  max-sm:text-xl  max-sm:gap-3 min-w-[20%] gap-5">
           <FaQuestion
             onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
             className="font-bold"

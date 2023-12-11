@@ -15,17 +15,17 @@ const HowToPlayModal = () => {
       onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
     >
       <div
-        className={` min-w-[480px] max-w-[780px] shadow-xl w-[85%] ${
+        className={` max-w-[780px] shadow-xl relative w-[95%] ${
           isDarkMode ? "bg-[#13212a] text-slate-300" : " bg-slate-200 text-black"
-        } z-40 p-6 rounded-lg`}
+        } z-40 p-6 rounded-lg max-sm:overflow-auto`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative">
+        <div className="">
           <div className="modal-container flex flex-col gap-4">
-            <h2 className=" text-4xl font-bold">How to play SumDigit</h2>
+            <h2 className=" text-3xl font-bold max-sm:text-lg ">How to play SumDigit</h2>
 
-            <div className="">
-              <div className=" mb-2 flex items-start">
+            <div className="  max-sm:text-xs">
+              <div className=" mb-2 flex items-start ">
                 <div className=" mr-2">•</div>
                 <p>
                   The goal is to use the selected six numbers and the basic operations to
@@ -38,14 +38,14 @@ const HowToPlayModal = () => {
                 <p>
                   You can use addition, subtraction, multiplication, and division.
                   Intermediate results do not need to be whole numbers, but the final
-                  result must be the target number.A target Number and set of six numbers
-                  is released daily at midnight.
+                  result must be the target number.
                 </p>
               </div>
               <div className=" mb-2 flex items-start">
                 <div className=" mr-2">•</div>
                 <p>
-                  A target Number and set of six numbers is released daily at midnight.
+                  A <strong>new</strong> target Number and set of six numbers is released
+                  daily at midnight.
                 </p>
               </div>
               <div className=" mb-2 flex">
@@ -65,22 +65,24 @@ const HowToPlayModal = () => {
               </div> */}
             </div>
 
-            <div>
-              <h1 className=" font-bold text-xl">Example</h1>
-              <p>
+            <div className=" max-sm:text-xs">
+              <h1 className=" font-bold text-xl  max-sm:text-xs">Example</h1>
+              <p className="max-sm:hidden">
                 Suppose the target number is 346, and your selected numbers are 25, 50,
                 75, 3, 6, and 2. You could attempt to reach the target as follows:
               </p>
               <iframe
                 allow="autoplay"
-                className=" mt-4 min-w- w-[400px] h-[368px] rounded-lg shadow-xl m-auto"
+                className=" mt-4 w-[100%] min-h-[360px] rounded-lg shadow-xl m-auto max-sm:min-h-[160px]"
                 src={video}
               />
             </div>
           </div>
           <button
-            className={`absolute top-0 right-0  ${
-              isDarkMode ? "bg-slate-700 text-white" : " bg-slate-300  text-neutral-500"
+            className={`absolute top-0 right-0 m-2 ${
+              isDarkMode
+                ? "bg-black bg-opacity-30 text-slate-200"
+                : " bg-slate-300  text-neutral-500"
             } p-2 rounded-full`}
             onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
           >

@@ -15,13 +15,13 @@ const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) =
         isDarkMode ? "border-white " : "border-black "
       } border-opacity-0 rounded-md p-2 `}
     >
-      {completeAttempt.length > 0 &&
+      {completeAttempt?.length > 0 &&
         completeAttempt.map((row, j) => (
           <>
             {row.map((comValue, i) => (
               <div
                 key={`complete-${i}-${j}`}
-                className={` w-[70px] h-[35px] border shadow-md ${
+                className={` w-[70px] h-[35px] max-sm:w-[50px] max-sm:h-[28px] max-sm:text-[16px] border shadow-md ${
                   isDarkMode ? "border-white  " : "border-black "
                 }  border-opacity-10 ${
                   targetNumber === comValue
@@ -38,11 +38,11 @@ const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) =
             ))}{" "}
           </>
         ))}
-      {currentAttempt.length > 0 &&
+      {currentAttempt?.length > 0 &&
         currentAttempt.map((item, index) => (
           <div
             key={`current-${index}`}
-            className={` w-[70px] h-[35px] border shadow-md  ${
+            className={` w-[70px] h-[35px] max-sm:w-[50px] max-sm:h-[28px] max-sm:text-[16px] border shadow-md  ${
               isDarkMode ? "border-white " : "border-black  bg-[#19C9C8]"
             }   ${
               index + 1 === currentAttempt.length

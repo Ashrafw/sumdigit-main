@@ -70,7 +70,7 @@ const GenNumbersComplete = ({ numberObj }: GenNumbersCompleteType) => {
               <button
                 key={`gen-numb-key-${i}`}
                 disabled={true}
-                className={` w-[55px] h-[45px] shadow-md flex justify-center items-center text-lg font-bold rounded-md bg-black bg-opacity-50  ${
+                className={` w-[55px] h-[45px] shadow-md  max-sm:w-[50px] max-sm:h-[28px]  flex justify-center items-center text-lg font-bold rounded-md bg-black bg-opacity-50  ${
                   item.selected ? " cursor-not-allowed opacity-10 " : "bg-opacity-80"
                 } ${item.value === targetNumber ? " bg-emerald-500" : "bg-black"} `}
               >

@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
+type ObjectNum = {
+  id: number;
+  value: number | string;
+  selected: boolean;
+  result: boolean;
+};
 interface StateStore {
   isDarkMode: boolean;
   setIsDarkMode: (isDarkMode: boolean) => void;
@@ -51,9 +56,20 @@ interface StateStore {
   setStartTime: (startTime: object) => void;
 
   endTime: number;
-  setEndTime: (targetNumber: number) => void;
-}
+  setEndTime: (endTime: number) => void;
 
+  answer: (string | number)[][];
+  setAnswer: (answer: (string | number)[][]) => void;
+
+  hasFailedShowSolution: boolean;
+  setHasFailedShowSolution: (hasFailedShowSolution: boolean) => void;
+
+  numberObjPersist: ObjectNum[];
+  setNumberObjPersist: (numberObjPersist: ObjectNum[]) => void;
+
+  id: number;
+  setId: (Id: number) => void;
+}
 export const usePersistStore = create<StateStore>()(
   persist(
     (set) => ({
@@ -108,7 +124,23 @@ export const usePersistStore = create<StateStore>()(
       endTime: 0,
       setEndTime: (endTime: number) => set({ endTime }),
       //
+      answer: [],
+      setAnswer: (answer: (string | number)[][]) => set({ answer }),
+
+      //
+      hasFailedShowSolution: false,
+      setHasFailedShowSolution: (hasFailedShowSolution: boolean) =>
+        set({ hasFailedShowSolution }),
+
+      //
+      numberObjPersist: [],
+      setNumberObjPersist: (numberObjPersist: ObjectNum[]) => set({ numberObjPersist }),
+
+      //
+      id: 0,
+      setId: (id: number) => set({ id }),
     }),
+
     {
       name: "sum_digit",
     }

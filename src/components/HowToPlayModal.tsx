@@ -1,10 +1,8 @@
-import React from "react";
-import { FaTimes, FaHeart } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { useStateStore } from "../zustand";
 import video from "../assets/howtoplay20.mp4";
-import { VscDebugBreakpointData } from "react-icons/vsc";
 import { usePersistStore } from "../zustandPersist";
-import { FaChevronRight } from "react-icons/fa";
+
 const HowToPlayModal = () => {
   const { setIsHowToPlayModal, isHowToPlayModal } = useStateStore();
   const { isDarkMode } = usePersistStore();
@@ -52,17 +50,6 @@ const HowToPlayModal = () => {
                 <div className=" mr-2">•</div>
                 <p>You will have three lives/attempts to reach the target number.</p>
               </div>
-              {/* 
-              <p className=" mb-2 flex">
-                <VscDebugBreakpointData className=" text-2xl pt-0 mt-0 mr-2" />
-                Using the six chosen numbers and basic operations, try to reach the target
-                number.
-              </p> */}
-              {/* <div className=" flex">
-                <FaHeart />
-                <FaHeart />
-                <FaHeart />
-              </div> */}
             </div>
 
             <div className=" max-sm:text-xs">
@@ -73,7 +60,7 @@ const HowToPlayModal = () => {
               </p>
               <iframe
                 allow="autoplay"
-                className=" mt-4 w-[100%] min-h-[360px] rounded-lg shadow-xl m-auto max-sm:min-h-[160px]"
+                className=" mt-4 w-full min-h-[360px] rounded-lg shadow-xl m-auto max-sm:min-h-[160px]"
                 src={video}
               />
             </div>

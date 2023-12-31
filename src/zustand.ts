@@ -13,8 +13,8 @@ interface StateStore {
   lives: number;
   setLives: (lives: number) => void;
 
-  targetNumber: number;
-  setTargetNumber: (targetNumber: number) => void;
+  targetNumber: any;
+  setTargetNumber: (targetNumber: any) => void;
 }
 
 export const useStateStore = create<StateStore>()((set) => ({
@@ -31,5 +31,5 @@ export const useStateStore = create<StateStore>()((set) => ({
   setLives: (lives: number) => set({ lives }),
   //
   targetNumber: 0,
-  setTargetNumber: (targetNumber: number) => set({ targetNumber }),
+  setTargetNumber: (targetNumber: any) => set({ targetNumber }),
 }));

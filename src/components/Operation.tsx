@@ -61,7 +61,6 @@ const Operation = ({
   };
 
   return (
-    // <div className=" flex gap-4 ">
     <div
       className={` grid grid-cols-2 gap-1 ${
         isDarkMode ? "bg-[#19C9C8] bg-opacity-5" : "bg-[#ffffff] bg-opacity-20"
@@ -107,8 +106,8 @@ const Operation = ({
       <button
         disabled={achievedTargetNum || lives === 1}
         onClick={() => handleClick("redo")}
-        className={`  w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md  font-bold  flex justify-center items-center  rounded-br-xl bg-[#3a8f99] bg-opacity-70 ${
-          lives === 0 ? "bg-opacity-5" : "bg-opacity-20"
+        className={`  w-[55px] h-[45px]   max-sm:w-[50px]  max-sm:h-[35px] max-sm:text-[18px] shadow-md  font-bold  flex justify-center items-center  rounded-br-xl bg-[#3a8f99]  ${
+          lives === 1 ? "bg-opacity-30" : "bg-opacity-70"
         }  `}
       >
         <FaRedo style={{ fontSize: "16px", margin: "0", padding: "0" }} />

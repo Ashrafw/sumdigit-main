@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useStateStore } from "../zustand";
 import { usePersistIncompleteStore } from "../zustandPersist";

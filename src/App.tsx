@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import DisplayNone from "./components/DisplayNone";
-import Operation from "./components/Operation";
 import GenNumbers from "./components/GenNumbers";
 import TargetNumber from "./components/TargetNumber";
 import LivesAttempted from "./components/LivesAttempted";
-import ResultNumber from "./components/ResultNumber";
 import DisplayOutput from "./components/DisplayOutput";
 import HowToPlayModal from "./components/HowToPlayModal";
-import LivesModal from "./components/LivesModal";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useStateStore } from "./zustand";
 import StatsModal from "./components/StatsModal";
 import { usePersistIncompleteStore, usePersistStore } from "./zustandPersist";
-import GenNumbersComplete from "./components/GenNumbersComplete";
 import LivesAttemptedComplete from "./components/LivesAttemptedComplete";
-import MainComponent from "./components/MainComponent";
 import db from "./data/db.json";
 import AnswerModal from "./components/AnswerModal";
 const getDateFormat = () => {
@@ -47,6 +42,14 @@ type ObjectNum = {
   selected: boolean;
   result: boolean;
 };
+
+type answerType = {
+  id: number;
+  date: string;
+  targetNumber: number;
+  number: number[];
+  answer: (number | string)[][];
+};
 function App() {
   const {
     isDarkMode,
@@ -65,7 +68,6 @@ function App() {
     setCurrentStreak,
     hasFailedShowSolution,
     setHasFailedShowSolution,
-    answer,
     setAnswer,
     numberObjPersist,
     setNumberObjPersist,
@@ -75,15 +77,14 @@ function App() {
     usePersistIncompleteStore();
   const {
     isHowToPlayModal,
-    lives,
     targetNumber,
     isStatsModal,
     setIsStatsModal,
     setTargetNumber,
   } = useStateStore();
-  const [isLivesRemainingModal, setIsLivesRemainingModal] = useState(false);
-  const [numbers, setNumbers] = useState([]);
-  const [data, setData] = useState(db[0]);
+  const [numbers, setNumbers] = useState<number[]>([]);
+  const [livesArray, setLivesArray] = useState<string[]>([]);
+  const [numberObj, setNumberObj] = useState<ObjectNum[]>([]);
   const [currentAttempt, setCurrentAttempt] = useState<(string | number)[]>(() => {
     if (isIncomplete && getDateFormat() === lastGameDate) {
       return currentArr;
@@ -98,9 +99,6 @@ function App() {
       return [];
     }
   });
-  // console.log("getDateFormat()", getDateFormat());
-  // console.log("data", data);
-  // console.log("data[getDateFormat()]", data[getDateFormat()]);
 
   useEffect(() => {
     if (getDateFormat() !== lastGameDate) {
@@ -117,19 +115,13 @@ function App() {
     } else if (isSolved) {
       setIsStatsModal(true);
     }
-    setTargetNumber(data[getDateFormat()].targetNumber);
-    setAnswer(data[getDateFormat()].answer);
-    setNumbers(data[getDateFormat()].number);
-    setId(data[getDateFormat()].id);
-    // setIsSolved(false);
+    const dateNum: string | any = getDateFormat();
+    const actualData: answerType = db.filter((item) => item.date === dateNum)[0];
+    setTargetNumber(actualData.targetNumber);
+    setAnswer(actualData.answer);
+    setNumbers(actualData.number);
+    setId(actualData.id);
   }, []);
-  // console.log("lastGameDate", lastGameDate);
-  // console.log("targetNumber", targetNumber);
-  // console.log("numbers", numbers);
-  // console.log("answer", answer);
-  //
-  const [livesArray, setLivesArray] = useState<string[]>([]);
-  const [numberObj, setNumberObj] = useState<ObjectNum[]>([]);
 
   useEffect(() => {
     setNumberObj((): any | ObjectNum => {
@@ -154,32 +146,13 @@ function App() {
     }
   }, [numberObj]);
 
-  // useEffect(() => {
-  //   if (numberObj.length === 0 && isIncomplete && numberObjPersist.length > 0) {
-  //     setNumberObj(numberObjPersist);
-  //   }
-  // }, []);
-
-  // console.log("numberObj.length", numberObj.length);
-  // console.log("numberObjPersist.length", numberObjPersist.length);
-  // console.log("isIncomplete", isIncomplete);
-  // console.log("numberObjPersist", numberObjPersist);
-  // console.log("numberObjPersist", numberObjPersist);
-  //
   const handleClick = () => {
-    const time = new Date();
+    const time: any = new Date().toISOString();
     setStartTime(time);
     setIsStartGame(true);
     setAchievedTargetNum(false);
   };
-  // console.log("getDateFormat()", getDateFormat());
-  console.log("achievedTargetNum", achievedTargetNum);
-  console.log("isStartGame", isStartGame);
-  console.log("isIncomplete", isIncomplete);
-  console.log("isSolved", isSolved);
-  console.log("hasFailedShowSolution", hasFailedShowSolution);
-  // console.log("numbers", numbers);
-  console.log("isStatsModal", isStatsModal);
+
   return (
     <div
       className={`w-screen h-screen relative  ${
@@ -193,7 +166,7 @@ function App() {
       {isHowToPlayModal && <HowToPlayModal />}
       {!isStartGame && !isIncomplete && !isSolved && !hasFailedShowSolution ? (
         <div
-          className={` max-w-[970px] w-[90%] m-auto h-[calc(100%_-_120px)] rounded-lg shadow-lg text-white  bg-slate-600 bg-opacity-80 flex  justify-center items-center flex-col gap-6 ${
+          className={` max-w-[970px] w-[90%] m-auto h-[calc(100%_-_125px)] rounded-lg shadow-lg text-white  bg-slate-600 bg-opacity-80 flex  justify-center items-center flex-col gap-6 ${
             isStatsModal || isHowToPlayModal ? "blur-lg" : "blur-none"
           } `}
         >
@@ -210,33 +183,17 @@ function App() {
           </div>
 
           <button
-            className=" px-16 py-2 bg-slate-800 rounded-lg shadow-lg font-semibold text-xl max-sm:px-12 max-sm:text-lg"
+            className=" px-16 py-2 bg-slate-800 rounded-lg shadow-lg font-semibold text-xl max-sm:px-12 max-sm:text-lg  hover:bg-opacity-80"
             onClick={() => handleClick()}
           >
             Start
           </button>
-
-          {/* <button className=" px-8 py-2 bg-slate-300 text-slate-700 rounded-lg shadow-lg font-semibold text-xl">
-            How to play
-          </button> */}
         </div>
       ) : hasFailedShowSolution ? (
         <div className={`${isStatsModal || isHowToPlayModal ? "blur-lg" : "blur-none"} `}>
           <AnswerModal numbers={numbers} />
         </div>
       ) : (
-        // <MainComponent
-        //   livesArray={livesArray}
-        //   setLivesArray={setLivesArray}
-        //   currentAttempt={currentAttempt}
-        //   completeAttempt={completeAttempt}
-        //   numbers={numbers}
-        //   setCurrentAttempt={setCurrentAttempt}
-        //   setCompleteAttempt={setCompleteAttempt}
-        //   numberObj={numberObj}
-        //   setNumberObj={setNumberObj}
-        //   setIsLivesRemainingModal={setIsLivesRemainingModal}
-        // />
         <div className={`${isStatsModal || isHowToPlayModal ? "blur-lg" : "blur-none"} `}>
           <div className=" font-semibold text-md text-center mt-2 max-sm:text-sm max-sm:mt-1">
             {getDateFormatStart()}
@@ -255,7 +212,6 @@ function App() {
                 <LivesAttempted livesArray={livesArray} setLivesArray={setLivesArray} />
               )}
             </div>
-            {/* {!achievedTargetNum && <StatsModal />} */}
             <div>
               {achievedTargetNum && !isConfetti && (
                 <ConfettiExplosion
@@ -266,7 +222,6 @@ function App() {
                 />
               )}
             </div>
-            {/* {isLivesRemainingModal && <LivesModal lives={lives} />} */}
             <div className=" relative">
               <DisplayNone />
               <div className="absolute top-0 left-0">
@@ -287,9 +242,7 @@ function App() {
                   setCompleteAttempt={setCompleteAttempt}
                   numberObj={numberObj}
                   setNumberObj={setNumberObj}
-                  // targetNumber={targetNumber}
                   completeAttempt={completeAttempt}
-                  setIsLivesRemainingModal={setIsLivesRemainingModal}
                 />
               </div>
             )}
@@ -300,16 +253,18 @@ function App() {
       <div
         className={`w-full absolute bottom-0 flex items-center  ${
           !isDarkMode
-            ? "bg-[#131e2611] text-[rgba(255, 255, 255, 0.171)]"
+            ? "bg-[#131e2611] text-[rgb(255, 255, 255)]"
             : " bg-[#dce4e616] text-[rgb(255, 255, 255)]"
         }`}
       >
         <a
           href="https://www.ashrafmedia.com"
-          className=" text-center m-auto p-2  font-semibold max-sm:text-md  max-sm:text-sm"
+          className={` text-center m-auto p-[6px] px-6 rounded-md font-semibold max-sm:text-md  max-sm:text-sm  max-sm:p-1  max-sm:px-4   hover:bg-opacity-10  ${
+            isDarkMode ? "hover:bg-white" : " hover:bg-black  hover:bg-opacity-5"
+          }`}
         >
           {" "}
-          created by @ashrafmedia
+          Created by @ashrafmedia
         </a>
       </div>
     </div>

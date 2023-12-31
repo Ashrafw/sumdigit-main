@@ -1,19 +1,14 @@
-import React from "react";
 import { usePersistStore } from "../zustandPersist";
 import { useStateStore } from "../zustand";
-import DisplayOutput from "./DisplayOutput";
-import DisplayNone from "./DisplayNone";
 import TargetNumber from "./TargetNumber";
 
 const AnswerModal = ({ numbers }: { numbers: number[] }) => {
-  // const { setIsStatsModal, isStatsModal } = useStateStore();
   const { isDarkMode, answer } = usePersistStore();
   const { targetNumber } = useStateStore();
 
   return (
     <div
       className={`  bg-opacity-20 w-full pt-6 flex justify-center items-center  max-sm:pt-1 `}
-      //   onClick={() => setIsStatsModal(!isStatsModal)}
     >
       <div
         className={` flex flex-col justify-center items-center px-4 gap-4 max-sm:px- `}
@@ -22,20 +17,14 @@ const AnswerModal = ({ numbers }: { numbers: number[] }) => {
           className={` relative  blur-none shadow-xl  ${
             isDarkMode ? "bg-[#172934] text-slate-100" : " bg-slate-200 text-black"
           } p-6 rounded-lg`}
-
-          //   onClick={(e) => e.stopPropagation()}
         >
           <h1 className=" text-xl font-bold mb-4  max-sm:text-md">Today's Solution</h1>
           <h1 className=" text-xl font-bold mb-4">
             <TargetNumber />
           </h1>
           <div className=" relative">
-            {/* <DisplayNone /> */}
             <div className="">
               <div
-                // className={`  grid grid-cols-5 gap-2 border ${
-                //   isDarkMode ? "border-white " : "border-black "
-                // } border-opacity-0 rounded-md p-2 `}
                 className={` grid grid-cols-5 gap-2 shadow-sm border ${
                   isDarkMode ? "border-white " : "border-black "
                 } border-opacity-25 rounded-md p-2`}
@@ -73,7 +62,6 @@ const AnswerModal = ({ numbers }: { numbers: number[] }) => {
               {numbers.map((num, i) => (
                 <div
                   key={`btn-act-answer-${i}`}
-                  // onClick={() => handleClick(num.value, num.id)}
                   className={` w-[55px] h-[45px] max-sm:w-[50px]  max-sm:h-[30px] max-sm:text- shadow-md flex justify-center items-center text-lg font-bold ${
                     false ? " cursor-not-allowed opacity-10 " : "bg-opacity-80"
                   } bg-black  ${

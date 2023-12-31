@@ -1,4 +1,3 @@
-import React from "react";
 import { useStateStore } from "../zustand";
 import { usePersistStore } from "../zustandPersist";
 

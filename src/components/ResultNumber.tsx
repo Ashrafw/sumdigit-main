@@ -1,5 +1,3 @@
-import React from "react";
-
 const ResultNumber = ({ resultNumbers }: { resultNumbers: number[] }) => {
   console.log("resultNumbers", resultNumbers);
   return (
@@ -12,7 +10,6 @@ const ResultNumber = ({ resultNumbers }: { resultNumbers: number[] }) => {
           {item}
         </div>
       ))}
-      {/* <div className=" w-[60px] h-[60px] flex justify-center items-center text-xl font-bold rounded-md bg-black bg-opacity-25"></div> */}
     </div>
   );
 };

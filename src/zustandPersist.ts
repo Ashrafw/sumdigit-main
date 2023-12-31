@@ -37,8 +37,8 @@ interface StateStore {
   lastGameDate: string;
   setLastGameDate: (lastGameDate: string) => void;
   //
-  mySolution: object;
-  setMySolution: (mySolution: object) => void;
+  mySolution: (string | number)[][];
+  setMySolution: (mySolution: (string | number)[][]) => void;
   //
   isSolved: boolean;
   setIsSolved: (isSolved: boolean) => void;
@@ -52,8 +52,8 @@ interface StateStore {
   isConfetti: boolean;
   setIsConfetti: (isConfetti: boolean) => void;
 
-  startTime: object;
-  setStartTime: (startTime: object) => void;
+  startTime: any;
+  setStartTime: (startTime: any) => void;
 
   endTime: number;
   setEndTime: (endTime: number) => void;
@@ -68,7 +68,7 @@ interface StateStore {
   setNumberObjPersist: (numberObjPersist: ObjectNum[]) => void;
 
   id: number;
-  setId: (Id: number) => void;
+  setId: (id: number) => void;
 }
 export const usePersistStore = create<StateStore>()(
   persist(
@@ -103,8 +103,8 @@ export const usePersistStore = create<StateStore>()(
       lastGameDate: "",
       setLastGameDate: (lastGameDate: string) => set({ lastGameDate }),
       //
-      mySolution: {},
-      setMySolution: (mySolution: object) => set({ mySolution }),
+      mySolution: [],
+      setMySolution: (mySolution: (string | number)[][]) => set({ mySolution }),
 
       isSolved: false,
       setIsSolved: (isSolved: boolean) => set({ isSolved }),
@@ -118,8 +118,8 @@ export const usePersistStore = create<StateStore>()(
       isConfetti: false,
       setIsConfetti: (isConfetti: boolean) => set({ isConfetti }),
       //
-      startTime: {},
-      setStartTime: (startTime: object) => set({ startTime }),
+      startTime: 0,
+      setStartTime: (startTime: any) => set({ startTime }),
       //
       endTime: 0,
       setEndTime: (endTime: number) => set({ endTime }),

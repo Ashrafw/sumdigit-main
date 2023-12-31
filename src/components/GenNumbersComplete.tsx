@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Operation from "./Operation";
+import React from "react";
 import { useStateStore } from "../zustand";
-import { usePersistStore } from "../zustandPersist";
 import OperationComplete from "./OperationComplete";
 
 type ObjectNum = {
@@ -23,43 +21,22 @@ type GenNumbersCompleteType = {
   setIsLivesRemainingModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const GenNumbersComplete = ({ numberObj }: GenNumbersCompleteType) => {
-  const [isBackSpacePossible, setIsBackSpacePossible] = useState(false);
-  const calculate = (num1: number, op: string, num2: number): number => {
-    if (op === "+") {
-      return num1 + num2;
-    } else if (op === "-") {
-      return num1 - num2;
-    } else if (op === "x") {
-      return num1 * num2;
-    } else if (op === "÷") {
-      return num1 / num2;
-    } else {
-      return 0;
-    }
-  };
+  // const [isBackSpacePossible, setIsBackSpacePossible] = useState(false);
+  // const calculate = (num1: number, op: string, num2: number): number => {
+  //   if (op === "+") {
+  //     return num1 + num2;
+  //   } else if (op === "-") {
+  //     return num1 - num2;
+  //   } else if (op === "x") {
+  //     return num1 * num2;
+  //   } else if (op === "÷") {
+  //     return num1 / num2;
+  //   } else {
+  //     return 0;
+  //   }
+  // };
 
   const { targetNumber } = useStateStore();
-  //
-  //   const {
-  //     gamesPlayed,
-  //     setGamesPlayed,
-  //     currentStreak,
-  //     setCurrentStreak,
-  //     longestStreak,
-  //     setLongestStreak,
-  //     fastestTime,
-  //     setFastestTime,
-  //     solvedFirst,
-  //     setSolvedFirst,
-  //     solvedSecond,
-  //     setSolvedSecond,
-  //     solvedThird,
-  //     setSolvedThird,
-  //     lastGameDate,
-  //     setLastGameDate,
-  //     setMySolution,
-  //   } = usePersistStore();
-  //
 
   return (
     <div className=" text-white">
@@ -87,9 +64,6 @@ const GenNumbersComplete = ({ numberObj }: GenNumbersCompleteType) => {
               {!num.result && (
                 <button
                   key={`gen-main-key-${i}`}
-                  // key={i}
-                  // onClick={() => handleClick(num.value, num.id)}
-
                   disabled={true}
                   className={` w-[55px] h-[45px] shadow-md flex justify-center items-center text-lg font-bold ${
                     num.selected ? " cursor-not-allowed opacity-10 " : "bg-opacity-80"

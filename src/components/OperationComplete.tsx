@@ -1,19 +1,10 @@
-import React from "react";
 import { FaRedo } from "react-icons/fa";
-import { useStateStore } from "../zustand";
 import { usePersistStore } from "../zustandPersist";
-type ObjectNum = {
-  id: number;
-  value: number | string;
-  selected: boolean;
-  result: boolean;
-};
 
 const OperationComplete = () => {
   const { isDarkMode } = usePersistStore();
 
   return (
-    // <div className=" flex gap-4 ">
     <div
       className={` grid grid-cols-2 gap-1 ${
         isDarkMode ? "bg-[#19C9C8] bg-opacity-5" : "bg-[#ffffff] bg-opacity-20"

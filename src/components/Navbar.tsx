@@ -1,4 +1,4 @@
-import { FaRegChartBar, FaQuestion, FaBars, FaCog } from "react-icons/fa";
+import { FaRegChartBar } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
 import { useStateStore } from "../zustand";
@@ -16,32 +16,25 @@ const Navbar = () => {
       }`}
     >
       <div className=" max-w-[1000px] w-[100%] flex justify-between items-center py-2 px-4 ">
-        {/* <div className="nav-left min-w-[20%] text-2xl "><FaBars /></div> */}
         <div className=" px-4 py-1  text-3xl max-sm:text-xl font-display bg-slate-950 rounded-md bg-opacity-80 text-white">
           Sum<span className=" text-[#19C9C8]">Digit</span>.com
         </div>
         <div className=" flex items-center justify-end text-2xl  max-sm:text-xl  max-sm:gap-3 min-w-[20%] gap-5">
-          <FaQuestion
+          <button
             onClick={() => setIsHowToPlayModal(!isHowToPlayModal)}
-            className="font-bold"
-            style={{ cursor: "pointer" }}
-          />
+            className=" text-sm  py-2 px-4 bg-[#131e26] text-slate-200 rounded-full font-semibold border-2 border-slate-200"
+          >
+            Help ?
+          </button>
           <button onClick={() => setIsDarkMode(!isDarkMode)}>
             {!isDarkMode ? (
-              <FaSun
-                // onClick={() => setIsSettingModal((prev) => !prev)}
-                style={{ cursor: "pointer" }}
-              />
+              <FaSun style={{ cursor: "pointer" }} />
             ) : (
-              <FaMoon
-                // onClick={() => setIsSettingModal((prev) => !prev)}
-                style={{ cursor: "pointer" }}
-              />
+              <FaMoon style={{ cursor: "pointer" }} />
             )}
           </button>
 
           <FaRegChartBar
-            // onClick={() => setIsStatsModal((prev) => !prev)}
             onClick={() => setIsStatsModal(!isStatsModal)}
             style={{ cursor: "pointer" }}
           />

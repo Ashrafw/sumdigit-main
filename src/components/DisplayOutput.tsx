@@ -1,4 +1,3 @@
-import React from "react";
 import { useStateStore } from "../zustand";
 import { usePersistStore } from "../zustandPersist";
 type DisplayOutputType = {
@@ -35,7 +34,7 @@ const DisplayOutput = ({ currentAttempt, completeAttempt }: DisplayOutputType) =
               >
                 {comValue}
               </div>
-            ))}{" "}
+            ))}
           </>
         ))}
       {currentAttempt?.length > 0 &&

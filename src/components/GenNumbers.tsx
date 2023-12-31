@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Operation from "./Operation";
 import { useStateStore } from "../zustand";
 import { usePersistIncompleteStore, usePersistStore } from "../zustandPersist";
@@ -17,7 +17,6 @@ type GenNumbersType = {
   setCompleteAttempt: React.Dispatch<React.SetStateAction<(string | number)[][]>>;
   numberObj: ObjectNum[];
   setNumberObj: React.Dispatch<React.SetStateAction<ObjectNum[]>>;
-  setIsLivesRemainingModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const GenNumbers = ({
   numbers,
@@ -27,23 +26,23 @@ const GenNumbers = ({
   setCompleteAttempt,
   numberObj,
   setNumberObj,
-  setIsLivesRemainingModal,
 }: GenNumbersType) => {
   const [isBackSpacePossible, setIsBackSpacePossible] = useState(false);
-  const calculate = (num1: number, op: string, num2: number): number => {
+  const calculate = (num1: number | string, op: any, num2: number | string): number => {
+    const number1 = Number(num1);
+    const number2 = Number(num2);
     if (op === "+") {
-      return num1 + num2;
+      return number1 + number2;
     } else if (op === "-") {
-      return num1 - num2;
+      return number1 - number2;
     } else if (op === "x") {
-      return num1 * num2;
+      return number1 * number2;
     } else if (op === "÷") {
-      return num1 / num2;
+      return number1 / number2;
     } else {
       return 0;
     }
   };
-  console.log("numberObj", numberObj);
   const {
     setLives,
     lives,
@@ -57,16 +56,12 @@ const GenNumbers = ({
     usePersistStore();
 
   const {
-    isIncomplete,
     setIsIncomplete,
     //
-    currentArr,
     setCurrentArr,
     //
-    completeArr,
     setCompleteArr,
     //
-    objectArr,
     setObjectArr,
     setLivesIncomplete,
   } = usePersistIncompleteStore();
@@ -86,7 +81,6 @@ const GenNumbers = ({
     setSolvedSecond,
     solvedThird,
     setSolvedThird,
-    lastGameDate,
     setLastGameDate,
     setMySolution,
     setLastLife,
@@ -117,7 +111,6 @@ const GenNumbers = ({
 
   useEffect(() => {
     if (lives === 1) {
-      // /      setHasFailedShowSolution(false)
       setShowSolutionBtn(true);
     }
   }, [lives]);
@@ -125,7 +118,6 @@ const GenNumbers = ({
   // calculations
   useEffect(() => {
     if (currentAttempt.length === 5 && typeof currentAttempt[4] === "number") {
-      // setResultNumbers((prev) => [...prev, currentAttempt[4]]);
       setNumberObj([
         ...numberObj,
         {
@@ -136,7 +128,6 @@ const GenNumbers = ({
         },
       ]);
       const date = new Date();
-      console.log("date", date);
       const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
       setLastGameDate(newDate);
 
@@ -157,12 +148,13 @@ const GenNumbers = ({
         .filter((obj) => obj.result === true)
         .some((obj) => obj.value === targetNumber)
     ) {
+      const timeNow: any = new Date();
+      const actualStartTime: any = new Date(startTime);
+
       setAchievedTargetNum(true);
-      setEndTime((new Date() - startTime) / 1000);
+      setEndTime((timeNow - actualStartTime) / 1000);
       setGamesPlayed(gamesPlayed + 1);
-      // const date = new Date();
-      // const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-      // setLastGameDate(newDate);
+
       setMySolution(completeAttempt);
       setLastLife(lives);
       setIsSolved(true);
@@ -184,8 +176,8 @@ const GenNumbers = ({
         setLongestStreak(currentStreak + 1);
       }
       setCurrentStreak(currentStreak + 1);
-      if (fastestTime === 0 || fastestTime > (new Date() - startTime) / 1000) {
-        setFastestTime((new Date() - startTime) / 1000);
+      if (fastestTime === 0 || fastestTime > (timeNow - actualStartTime) / 1000) {
+        setFastestTime((timeNow - actualStartTime) / 1000);
       }
       if (lives === 1) {
         setSolvedFirst(solvedFirst + 1);
@@ -199,7 +191,7 @@ const GenNumbers = ({
   // reset when exhausted 5 operations
   useEffect(() => {
     if (completeAttempt.length === 5 && !achievedTargetNum && lives > 1) {
-      setIsLivesRemainingModal(true);
+      // setIsLivesRemainingModal(true);
       setTimeout(() => {
         setLives(lives - 1);
         setCurrentAttempt([]);
@@ -212,7 +204,7 @@ const GenNumbers = ({
           return newObj;
         };
         setNumberObj(handleChange());
-        setIsLivesRemainingModal(false);
+        // setIsLivesRemainingModal(false);
       }, 1000);
     }
   }, [completeAttempt]);
@@ -239,16 +231,12 @@ const GenNumbers = ({
     }, 40000);
   }, [lives]);
 
-  console.log("completeAttempt", completeAttempt);
-  console.log("numberObj", numberObj);
-
   const handleGameOver = () => {
     setHasFailedShowSolution(true);
     setGamesPlayed(gamesPlayed + 1);
     setCurrentStreak(0);
     setIsSolved(false);
     const date = new Date();
-    console.log("date", date);
     const newDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     setLastGameDate(newDate);
   };

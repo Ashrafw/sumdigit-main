@@ -1,9 +1,8 @@
-import React from "react";
 import { useStateStore } from "../zustand";
 import { FaTimes, FaHeart } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
-import { usePersistIncompleteStore, usePersistStore } from "../zustandPersist";
-import { EmailShareButton, TwitterShareButton } from "react-share";
+import { usePersistStore } from "../zustandPersist";
+import { TwitterShareButton } from "react-share";
 
 const StatsModal = () => {
   const { setIsStatsModal, isStatsModal } = useStateStore();
@@ -16,28 +15,23 @@ const StatsModal = () => {
     solvedFirst,
     solvedSecond,
     solvedThird,
-    lastGameDate,
     endTime,
     lastLife,
     id,
     isSolved,
   } = usePersistStore();
 
-  const { isIncomplete } = usePersistIncompleteStore();
   const changeTimeFormat = (totalSeconds: number) => {
-    // const milliseconds = 20000;
-    // const totalSeconds = Math.floor(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = Math.floor(totalSeconds % 60);
-    const aaa = Math.floor(totalSeconds % 3600);
-    // const seconds = totalSeconds % 60;
     return `${hours > 0 ? `${hours + " hours"}, ` : ""}${
       minutes > 0 ? `${minutes + " minutes"}` : ""
     }${seconds > 0 ? ` ${seconds + " seconds"}` : ""}      
     `;
   };
   const timeCur = changeTimeFormat(endTime);
+  console.log("endTime", endTime);
   console.log("lastLife", lastLife);
   const text = `SumDigit  #${id} \n\n${
     lastLife === 3
@@ -236,10 +230,5 @@ const StatsModal = () => {
     </div>
   );
 };
-// Wordle 905 3/6
-
-// ⬜⬜⬜⬜🟩
-// 🟨🟩🟩⬜⬜
-// 🟩🟩🟩🟩🟩
 
 export default StatsModal;
